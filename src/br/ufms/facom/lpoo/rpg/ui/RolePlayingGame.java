@@ -225,11 +225,10 @@ public class RolePlayingGame extends Application {
 		// Cria painel grid.
 		GridPane grid = new GridPane();
 
-		// Canvas do tabuleiro.
+		// Canvas que exibe o tabuleiro.
 		canvas = new Canvas(768, 768);
 		desenhaCanvas();
 		grid.add(canvas, 0, 0, 1, 2);
-
 		canvas.setOnMouseClicked(new EventHandler<MouseEvent>() {
 			@Override
 			public void handle(MouseEvent event) {
@@ -251,7 +250,6 @@ public class RolePlayingGame extends Application {
 		btnSair.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
 			public void handle(ActionEvent event) {
-				threadControle.interrupt();
 				Platform.exit();
 			}
 		});
@@ -282,6 +280,15 @@ public class RolePlayingGame extends Application {
 
 		threadControle.start();
 	}
+
+	@Override
+	public void stop() throws Exception {
+		super.stop();
+
+		// Interrompe thread de controle.
+		threadControle.interrupt();
+	}
+
 }
 
 class MensagemCell extends ListCell<Pair<String, Boolean>> {
