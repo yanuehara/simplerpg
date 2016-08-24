@@ -1,4 +1,4 @@
-package br.ufms.facom.lpoo.rpg.personagem;
+package br.ufms.facom.lpoo.rpg.arma;
 
 public interface Arma {
 	public int getAlcance();

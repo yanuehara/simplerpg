@@ -1,5 +1,8 @@
 package br.ufms.facom.lpoo.rpg.personagem;
 
+import br.ufms.facom.lpoo.rpg.arma.Arma;
+import br.ufms.facom.lpoo.rpg.arma.Faca;
+
 public class Soldado implements Personagem {
 
 	private Arma arma;

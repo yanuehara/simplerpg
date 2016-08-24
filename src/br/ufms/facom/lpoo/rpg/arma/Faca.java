@@ -1,4 +1,4 @@
-package br.ufms.facom.lpoo.rpg.personagem;
+package br.ufms.facom.lpoo.rpg.arma;
 
 public class Faca implements Arma {
 

@@ -1,5 +1,7 @@
 package br.ufms.facom.lpoo.rpg.personagem;
 
+import br.ufms.facom.lpoo.rpg.arma.Arma;
+
 public interface Personagem {
 	public int getDefesa();
 
