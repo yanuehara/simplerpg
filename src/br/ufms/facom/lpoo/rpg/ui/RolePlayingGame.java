@@ -18,57 +18,137 @@ import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Button;
-import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
 import javafx.scene.image.Image;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
-import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.util.Pair;
 
+/**
+ * Interface do RPG.
+ * <p>
+ * Implementa a exibição do tabuleiro (casas e personagens com suas armas,
+ * níveis de vida, nomes), exibição das mensagens e entradas do usuário (seleção
+ * de posição e seleção de personagem).
+ * 
+ * @author eraldo
+ *
+ */
 public class RolePlayingGame extends Application {
+	/**
+	 * Canvas que exibe o tabuleiro.
+	 */
 	private Canvas canvas;
 
+	/**
+	 * Lista de mensagens. Cada mensagem é um par <String,Boolean>. O valor
+	 * booleano indica se a mensagem é de erro ou não.
+	 */
 	private ObservableList<Pair<String, Boolean>> mensagens;
 
+	/**
+	 * Armazena os ícones dos personagens adicionados ao tabuleiro.
+	 */
 	private Map<String, Image> icons;
 
+	/**
+	 * Lista de personagens no tabuleiro.
+	 */
 	private List<Personagem> personagens;
 
+	/**
+	 * Objeto de controle do jogo.
+	 */
 	private Controle controle;
 
+	/**
+	 * Thread que executa o controle do jogo.
+	 */
 	private Thread threadControle;
 
-	private Leitura leitura;
+	/**
+	 * Objeto usado na sincronização da entrada do usuário (seleção de posição e
+	 * de personagem com o mouse).
+	 * <p>
+	 * O procedimento de entrada é implementado como um produtor-consumidor. A
+	 * thread de controle é o consumidor (de posições e de personagens). A
+	 * interface (thread da aplicação) é o produtor. Entretanto, a produção é
+	 * solicitada pelo consumidor (controle). Somente após o controle solicitar
+	 * uma entrada (posição ou personagem) é que a entrada é produzida. Quando a
+	 * entrada é solicitada pelo controle, a thread de controle é bloqueada e a
+	 * interface aguarda o usuário fazer a seleção adequada. Assim que o usuário
+	 * seleciona a entrada esperada, a interface a fornece à thread de controle.
+	 */
+	private SelecaoTabuleiro leitura;
 
+	/**
+	 * Largura, em pixels, do tabuleiro (canvas).
+	 */
 	private static final int W = 768;
+
+	/**
+	 * Altura, em pixels, do tabuleiro (canvas).
+	 */
 	private static final int H = 768;
 
+	/**
+	 * Largura, em casas, do tabuleiro.
+	 */
 	public static final int MAX_X = 8;
+
+	/**
+	 * Altura, em casas, do tabuleiro.
+	 */
 	public static final int MAX_Y = 8;
 
+	/**
+	 * Largura, em pixels, de uma casa do tabuleiro.
+	 */
 	private static final int CELL_W = W / MAX_X;
+
+	/**
+	 * Altura, em pixels, de uma casa do tabuleiro.
+	 */
 	private static final int CELL_H = H / MAX_Y;
 
+	/**
+	 * Ponto de entrada da aplicação.
+	 * 
+	 * @param args
+	 */
 	public static void main(String[] args) {
 		launch(args);
 	}
 
+	/**
+	 * Cria os atributos principais da interface.
+	 */
 	public RolePlayingGame() {
 		personagens = new LinkedList<>();
 		icons = new HashMap<>();
 		controle = new Controle(this);
 		mensagens = FXCollections.observableArrayList();
-		leitura = new Leitura();
+		leitura = new SelecaoTabuleiro();
 	}
 
+	/**
+	 * Adiciona o personagem <code>p</code> ao tabuleiro. Este personagem será
+	 * desenhado na próxima chamada ao método <code>atualizaTabuleiro()</code>.
+	 * 
+	 * @param p
+	 */
 	public void addPersonagem(Personagem p) {
 		personagens.add(p);
 	}
 
+	/**
+	 * Adiciona mensagem informativa.
+	 * 
+	 * @param msg
+	 */
 	public void info(String msg) {
 		Platform.runLater(new Runnable() {
 			@Override
@@ -78,6 +158,11 @@ public class RolePlayingGame extends Application {
 		});
 	}
 
+	/**
+	 * Adiciona mensagem de erro.
+	 * 
+	 * @param msg
+	 */
 	public void erro(String msg) {
 		Platform.runLater(new Runnable() {
 			@Override
@@ -87,7 +172,10 @@ public class RolePlayingGame extends Application {
 		});
 	}
 
-	public void atualiza() {
+	/**
+	 * Desenha o tabuleiro atual na tela.
+	 */
+	public void atualizaTabuleiro() {
 		Platform.runLater(new Runnable() {
 			@Override
 			public void run() {
@@ -97,44 +185,69 @@ public class RolePlayingGame extends Application {
 		});
 	}
 
+	/**
+	 * Espera o usuário selecionar um personagem no tabuleiro e o retorna.
+	 * <p>
+	 * Este método deve ser chamado pela thread de controle. A thread ficará
+	 * bloqueada até o usuário selecionar um personagem ou a aplicação ser
+	 * finalizada.
+	 * 
+	 * @return personagem selecionado.
+	 * @throws InterruptedException
+	 *             caso a aplicação seja finalizada antes da seleção do usuário.
+	 */
 	public Personagem selecionaPersonagem() throws InterruptedException {
 		synchronized (leitura) {
-			while (leitura.estado != EstadoLeitura.DESOCUPADO)
+			while (leitura.estado != EstadoSelecao.DESOCUPADO)
 				leitura.wait();
 
 			leitura.personagem = null;
-			leitura.estado = EstadoLeitura.PERSONAGEM;
+			leitura.estado = EstadoSelecao.PERSONAGEM;
 
 			while (leitura.personagem == null)
 				leitura.wait();
 
 			Personagem p = leitura.personagem;
 			leitura.personagem = null;
-			leitura.estado = EstadoLeitura.DESOCUPADO;
+			leitura.estado = EstadoSelecao.DESOCUPADO;
 
 			return p;
 		}
 	}
 
+	/**
+	 * Espera o usuário selecionar uma casa do tabuleiro e a retorna.
+	 * <p>
+	 * Este método deve ser chamado pela thread de controle. A thread ficará
+	 * bloqueada até o usuário selecionar uma casa ou a aplicação ser
+	 * finalizada.
+	 * 
+	 * @return a casa (posição) selecionada.
+	 * @throws InterruptedException
+	 *             caso a aplicação seja finalizada antes da seleção do usuário.
+	 */
 	public Posicao selecionaPosicao() throws InterruptedException {
 		synchronized (leitura) {
-			while (leitura.estado != EstadoLeitura.DESOCUPADO)
+			while (leitura.estado != EstadoSelecao.DESOCUPADO)
 				leitura.wait();
 
 			leitura.pos = null;
-			leitura.estado = EstadoLeitura.POSICAO;
+			leitura.estado = EstadoSelecao.POSICAO;
 
 			while (leitura.pos == null)
 				leitura.wait();
 
 			Posicao pos = leitura.pos;
 			leitura.pos = null;
-			leitura.estado = EstadoLeitura.DESOCUPADO;
+			leitura.estado = EstadoSelecao.DESOCUPADO;
 
 			return pos;
 		}
 	}
 
+	/**
+	 * Desenha o tabuleiro e os personagens.
+	 */
 	private void desenhaCanvas() {
 		// Desenha tabuleiro.
 		GraphicsContext gc = canvas.getGraphicsContext2D();
@@ -148,6 +261,11 @@ public class RolePlayingGame extends Application {
 		desenhaPersonagens(gc);
 	}
 
+	/**
+	 * Desenha personagens sobre o tabuleiro.
+	 * 
+	 * @param gc
+	 */
 	private void desenhaPersonagens(GraphicsContext gc) {
 		for (Personagem p : personagens) {
 			// Converte posição em células para pixels.
@@ -178,6 +296,13 @@ public class RolePlayingGame extends Application {
 		}
 	}
 
+	/**
+	 * Dado um objeto associado a um ícone (personagem ou arma), carrega a
+	 * imagem correspondente.
+	 * 
+	 * @param o
+	 * @return
+	 */
 	private Image getIcon(Object o) {
 		String className = o.getClass().getSimpleName();
 		Image icon = icons.get(className);
@@ -188,6 +313,16 @@ public class RolePlayingGame extends Application {
 		return icon;
 	}
 
+	/**
+	 * Trata o evento de clique sobre o tabuleiro. As coordenadas fornecidas
+	 * (<code>x</code> e <code>y</code>) já estão convertidas em casas do
+	 * tabuleiro (coluna e linha).
+	 * 
+	 * @param x
+	 *            índice horizontal (coluna) da casa que foi clicada.
+	 * @param y
+	 *            índice vertical (linha) da casa que foi clicada.
+	 */
 	private void onCanvasClick(int x, int y) {
 		synchronized (leitura) {
 			switch (leitura.estado) {
@@ -261,6 +396,10 @@ public class RolePlayingGame extends Application {
 		primaryStage.setScene(scene);
 		primaryStage.show();
 
+		/*
+		 * Cria a thread de controle que fica, indefinidamente, invocando o
+		 * método controle.executaTurno().
+		 */
 		threadControle = new Thread(new Runnable() {
 			@Override
 			public void run() {
@@ -278,6 +417,7 @@ public class RolePlayingGame extends Application {
 			}
 		});
 
+		// Inicia thread de controle.
 		threadControle.start();
 	}
 
@@ -289,52 +429,4 @@ public class RolePlayingGame extends Application {
 		threadControle.interrupt();
 	}
 
-}
-
-class MensagemCell extends ListCell<Pair<String, Boolean>> {
-	private Text mensagem;
-
-	public MensagemCell() {
-		mensagem = new Text();
-		mensagem.setWrappingWidth(250);
-	}
-
-	@Override
-	public void updateItem(Pair<String, Boolean> item, boolean empty) {
-		super.updateItem(item, empty);
-		if (item != null) {
-			mensagem.setText(item.getKey());
-			if (item.getValue().booleanValue())
-				mensagem.setFill(Color.RED);
-			setGraphic(mensagem);
-		} else
-			mensagem.setText("");
-	}
-}
-
-enum EstadoLeitura {
-	/**
-	 * Processo de leitura está desocupado, aguardando uma tarefa.
-	 */
-	DESOCUPADO,
-
-	/**
-	 * Processo de leitura está aguardando a seleção de um personagem.
-	 */
-	PERSONAGEM,
-
-	/**
-	 * Processo de leitura está aguardando a seleção de uma posição.
-	 */
-	POSICAO
-}
-
-class Leitura {
-	EstadoLeitura estado;
-	Personagem personagem;
-	Posicao pos;
-
-	Leitura() {
-		estado = EstadoLeitura.DESOCUPADO;
-	}
 }

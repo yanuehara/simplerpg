@@ -3,13 +3,41 @@ package br.ufms.facom.lpoo.rpg.personagem;
 import br.ufms.facom.lpoo.rpg.arma.Arma;
 import br.ufms.facom.lpoo.rpg.arma.Faca;
 
+/**
+ * Personagem soldado.
+ * <p>
+ * Este é apenas um exemplo que não respeita os requisitos do trabalho.
+ * 
+ * @author eraldo
+ *
+ */
 public class Soldado implements Personagem {
 
+	/**
+	 * Arma do soldado.
+	 */
 	private Arma arma;
+
+	/**
+	 * Nível de vida do soldado.
+	 */
 	private int vida;
+
+	/**
+	 * Nome do soldado.
+	 */
 	private String nome;
+
+	/**
+	 * Posição do soldado no tabuleiro.
+	 */
 	private Posicao posicao;
 
+	/**
+	 * Cria um soldado com o nome dado.
+	 * 
+	 * @param nome
+	 */
 	public Soldado(String nome) {
 		this.nome = nome;
 		arma = new Faca();
@@ -17,6 +45,13 @@ public class Soldado implements Personagem {
 		posicao = new Posicao();
 	}
 
+	/**
+	 * Cria um soldado com o nome e posição dados.
+	 * 
+	 * @param nome
+	 * @param x
+	 * @param y
+	 */
 	public Soldado(String nome, int x, int y) {
 		this(nome);
 		posicao = new Posicao(x, y);
@@ -24,19 +59,16 @@ public class Soldado implements Personagem {
 
 	@Override
 	public int getDefesa() {
-		// TODO Auto-generated method stub
 		return 0;
 	}
 
 	@Override
 	public int getAtaque() {
-		// TODO Auto-generated method stub
 		return 0;
 	}
 
 	@Override
 	public int getVelocidade() {
-		// TODO Auto-generated method stub
 		return 0;
 	}
 
@@ -79,5 +111,4 @@ public class Soldado implements Personagem {
 	public void setVida(int vida) {
 		this.vida = vida;
 	}
-
 }

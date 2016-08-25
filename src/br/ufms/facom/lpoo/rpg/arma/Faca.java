@@ -1,16 +1,18 @@
 package br.ufms.facom.lpoo.rpg.arma;
 
+/**
+ * Implementa uma arma: faca.
+ * <p>
+ * Esta implementação é apenas um exemplo que não segue as especificações do
+ * trabalho.
+ * 
+ * @author eraldo
+ *
+ */
 public class Faca implements Arma {
 
 	@Override
 	public int getAlcance() {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-
-	@Override
-	public int getAdicionalDeAtaque() {
-		// TODO Auto-generated method stub
 		return 0;
 	}
 
