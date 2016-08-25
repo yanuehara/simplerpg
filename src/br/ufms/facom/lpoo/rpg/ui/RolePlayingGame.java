@@ -14,6 +14,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
+import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
@@ -142,6 +143,18 @@ public class RolePlayingGame extends Application {
 	 */
 	public void addPersonagem(Personagem p) {
 		personagens.add(p);
+	}
+
+	/**
+	 * Remove o personagem dado <code>p</code> do tabuleiro do jogo.
+	 * 
+	 * @param p
+	 *            personagem a ser removido.
+	 * @return <code>true</code> se o personagem foi removido com sucesso;
+	 *         <code>false</code> caso o personagem não esteja no tabuleiro.
+	 */
+	public boolean removePersonagem(Personagem p) {
+		return personagens.remove(p);
 	}
 
 	/**
@@ -412,6 +425,7 @@ public class RolePlayingGame extends Application {
 
 		// Painel de botões.
 		FlowPane paneBotoes = new FlowPane();
+		paneBotoes.setAlignment(Pos.CENTER);
 		grid.add(paneBotoes, 1, 1);
 		Button btnSair = new Button("Sair");
 		btnSair.setOnAction(new EventHandler<ActionEvent>() {
