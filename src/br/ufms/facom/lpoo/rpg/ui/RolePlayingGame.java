@@ -82,7 +82,7 @@ public class RolePlayingGame extends Application {
 	 * interface aguarda o usuário fazer a seleção adequada. Assim que o usuário
 	 * seleciona a entrada esperada, a interface a fornece à thread de controle.
 	 */
-	private SelecaoTabuleiro leitura;
+	private SelecaoTabuleiro selecao;
 
 	/**
 	 * Largura, em pixels, do tabuleiro (canvas).
@@ -131,7 +131,7 @@ public class RolePlayingGame extends Application {
 		icons = new HashMap<>();
 		controle = new Controle(this);
 		mensagens = FXCollections.observableArrayList();
-		leitura = new SelecaoTabuleiro();
+		selecao = new SelecaoTabuleiro();
 	}
 
 	/**
@@ -197,19 +197,19 @@ public class RolePlayingGame extends Application {
 	 *             caso a aplicação seja finalizada antes da seleção do usuário.
 	 */
 	public Personagem selecionaPersonagem() throws InterruptedException {
-		synchronized (leitura) {
-			while (leitura.estado != EstadoSelecao.DESOCUPADO)
-				leitura.wait();
+		synchronized (selecao) {
+			while (selecao.estado != EstadoSelecao.DESOCUPADO)
+				selecao.wait();
 
-			leitura.personagem = null;
-			leitura.estado = EstadoSelecao.PERSONAGEM;
+			selecao.personagem = null;
+			selecao.estado = EstadoSelecao.PERSONAGEM;
 
-			while (leitura.personagem == null)
-				leitura.wait();
+			while (selecao.personagem == null)
+				selecao.wait();
 
-			Personagem p = leitura.personagem;
-			leitura.personagem = null;
-			leitura.estado = EstadoSelecao.DESOCUPADO;
+			Personagem p = selecao.personagem;
+			selecao.personagem = null;
+			selecao.estado = EstadoSelecao.DESOCUPADO;
 
 			return p;
 		}
@@ -227,19 +227,19 @@ public class RolePlayingGame extends Application {
 	 *             caso a aplicação seja finalizada antes da seleção do usuário.
 	 */
 	public Posicao selecionaPosicao() throws InterruptedException {
-		synchronized (leitura) {
-			while (leitura.estado != EstadoSelecao.DESOCUPADO)
-				leitura.wait();
+		synchronized (selecao) {
+			while (selecao.estado != EstadoSelecao.DESOCUPADO)
+				selecao.wait();
 
-			leitura.pos = null;
-			leitura.estado = EstadoSelecao.POSICAO;
+			selecao.pos = null;
+			selecao.estado = EstadoSelecao.POSICAO;
 
-			while (leitura.pos == null)
-				leitura.wait();
+			while (selecao.pos == null)
+				selecao.wait();
 
-			Posicao pos = leitura.pos;
-			leitura.pos = null;
-			leitura.estado = EstadoSelecao.DESOCUPADO;
+			Posicao pos = selecao.pos;
+			selecao.pos = null;
+			selecao.estado = EstadoSelecao.DESOCUPADO;
 
 			return pos;
 		}
@@ -324,31 +324,63 @@ public class RolePlayingGame extends Application {
 	 *            índice vertical (linha) da casa que foi clicada.
 	 */
 	private void onCanvasClick(int x, int y) {
-		synchronized (leitura) {
-			switch (leitura.estado) {
+		synchronized (selecao) {
+			switch (selecao.estado) {
 			case PERSONAGEM:
-				if (leitura.personagem != null)
+				if (selecao.personagem != null) {
+					/*
+					 * Um personagem já foi selecionado, mas não foi consumido.
+					 * Notica todas as threads e retorna.
+					 */
+					selecao.notifyAll();
 					return;
+				}
 
 				// Busca personagem que está na célula selecionada.
 				for (Personagem p : personagens) {
 					if (p.getX() == x && p.getY() == y) {
-						leitura.personagem = p;
-						leitura.notifyAll();
-						break;
+						/*
+						 * Encontrou um persona naquela posição. Armazena ele no
+						 * objeto selecao, notifica todas as threads e retorna.
+						 */
+						selecao.personagem = p;
+						selecao.notifyAll();
+						return;
 					}
 				}
 
+				/*
+				 * Usuário clicou sobre uma célula que não contém um personagem.
+				 * Espera outro clique.
+				 */
 				return;
 
 			case POSICAO:
-				if (leitura.pos != null)
+				if (selecao.pos != null) {
+					/*
+					 * Uma posição já foi selecionada, mas não foi consumida.
+					 * Notica todas as threads e retorna.
+					 */
+					selecao.notifyAll();
 					return;
-				leitura.pos = new Posicao(x, y);
-				leitura.notifyAll();
+				}
+
+				/*
+				 * Atualiza a posição selecionada, notifica todas as threads e
+				 * retorna.
+				 */
+				selecao.pos = new Posicao(x, y);
+				selecao.notifyAll();
 				return;
 
 			default:
+				/*
+				 * Estado desconhecido. Notifica todas as threads e retorna.
+				 * Isto é apenas por robustez, pois este caso não deveria
+				 * ocorrer.
+				 */
+				System.err.println("Estado de seleção inválido!");
+				selecao.notifyAll();
 				return;
 
 			}
