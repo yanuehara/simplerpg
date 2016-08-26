@@ -8,12 +8,12 @@ import br.ufms.facom.lpoo.rpg.ui.RolePlayingGame;
 /**
  * Controle do jogo: personagens e suas interações.
  * <p>
- * Esta é uma implementação de exemplo cujo único intuito é exemplificar os
- * principais métodos da classe de interface: <code>RolePlayingGame</code>. A
- * implementação apresentada aqui não condiz com os requisitos do trabalho
- * (temos apenas um tipo de personagem (<code>Soldado</code>) e um tipo de arma
- * (<code>Faca</code>). Apenas dois personagens são adicionados ao tabuleiro e a
- * interação entre eles não respeita nenhuma regra imposta no trabalho.
+ * O intuito desta implementação é apenas exemplificar o uso dos principais
+ * métodos da classe de interface: <code>RolePlayingGame</code>. A implementação
+ * apresentada aqui não condiz com os requisitos do trabalho (apenas um tipo de
+ * personagem (<code>Soldado</code>) e um tipo de arma (<code>Faca</code>) são
+ * implementados aqui). Apenas dois personagens (do mesmo tipo) são adicionados
+ * ao tabuleiro e a interação entre eles não respeita as regras do trabalho.
  * 
  * @author eraldo
  *
@@ -58,19 +58,22 @@ public class Controle {
 	 * Executa um turno do jogo. Este método é invocado pelo interface gráfica
 	 * continuamente, enquanto a aplicação estiver rodando.
 	 * <p>
-	 * TODO: A implementação apresentada é apenas um exemplo que não condiz com
-	 * os requisitos do trabalho. O turno implementado é muito simples. Cada
+	 * A implementação apresentada é apenas um exemplo que não condiz com os
+	 * requisitos do trabalho. O turno implementado é muito simples. Cada
 	 * jogador pode mover-se (sem restrições) e atacar o outro jogador. Nenhuma
 	 * restrição é verificada com relação à velocidade do personagem, alcance
-	 * das armas, pontos de vida, resultado de dados, etc.
+	 * das armas, pontos de vida, teste de habilidade, etc.
 	 * 
 	 * @throws InterruptedException
 	 *             Exceção lançada quando a aplicação é encerrada pelo usuário.
 	 *             O controle do jogo é executado em uma thread separada da
 	 *             thread principal da aplicação. Esta exceção é lançada para
-	 *             permitir o encerramento da thread de controle. Entretanto, o
-	 *             tratamento desta exceção é realizada pela classe de
-	 *             interface. Nenhum tratamento deve ser realizado neste método.
+	 *             permitir o encerramento da thread de controle quando ela está
+	 *             esperando uma resposta da interface com relação a uma ação do
+	 *             usuário (selecionar personagem ou posição). O tratamento
+	 *             desta exceção é realizado pela classe da aplicação
+	 *             (<code>RolePlayingGame</code>). Esta exceção não deve ser
+	 *             capturada aqui.
 	 */
 	public void executaTurno() throws InterruptedException {
 		/*
