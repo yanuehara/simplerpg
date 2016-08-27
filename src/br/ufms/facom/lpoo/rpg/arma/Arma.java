@@ -12,7 +12,7 @@ public interface Arma {
 	 * (d = |x1 - x2| + |y1 - y2|). Este valor deve ser um inteiro no intervalo
 	 * [1,5].
 	 * <p>
-	 * Armas de combate corpo a corpo têm alcance igual a 1. Armas de comcate a
+	 * Armas de combate corpo a corpo têm alcance igual a 1. Armas de combate a
 	 * distância têm alcance maior do que 1.
 	 * 
 	 * @return

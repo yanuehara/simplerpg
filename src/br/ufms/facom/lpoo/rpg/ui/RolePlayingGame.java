@@ -45,7 +45,7 @@ public class RolePlayingGame extends Application {
 	private Canvas canvas;
 
 	/**
-	 * Lista de mensagens. Cada mensagem é um par <String,Boolean>. O valor
+	 * Lista de mensagens. Cada mensagem é um par (String,Boolean). O valor
 	 * booleano indica se a mensagem é de erro ou não.
 	 */
 	private ObservableList<Pair<String, Boolean>> mensagens;
@@ -158,7 +158,7 @@ public class RolePlayingGame extends Application {
 	}
 
 	/**
-	 * Adiciona mensagem informativa.
+	 * Adiciona uma mensagem informativa na lista de mensagens.
 	 * 
 	 * @param msg
 	 */
@@ -172,7 +172,7 @@ public class RolePlayingGame extends Application {
 	}
 
 	/**
-	 * Adiciona mensagem de erro.
+	 * Adiciona uma mensagem de erro na lista de mensagens.
 	 * 
 	 * @param msg
 	 */
@@ -186,7 +186,7 @@ public class RolePlayingGame extends Application {
 	}
 
 	/**
-	 * Desenha o tabuleiro atual na tela.
+	 * Atualiza a exibição do tabuleiro.
 	 */
 	public void atualizaTabuleiro() {
 		Platform.runLater(new Runnable() {

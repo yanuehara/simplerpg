@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<project default="javadoc">
+    <target name="javadoc">
+        <javadoc access="private" additionalparam=" -charset &quot;UTF8&quot;" author="true" classpath="." destdir="javadoc" nodeprecated="false" nodeprecatedlist="false" noindex="false" nonavbar="false" notree="false" packagenames="br.ufms.facom.lpoo.rpg.personagem,br.ufms.facom.lpoo.rpg.ui,br.ufms.facom.lpoo.rpg.arma,br.ufms.facom.lpoo.rpg.controle" source="1.8" sourcepath="src" splitindex="true" use="true" version="true"/>
+    </target>
+</project>
