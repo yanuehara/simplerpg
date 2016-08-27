@@ -8,7 +8,7 @@ import javafx.util.Pair;
  * Exibe uma célula da lista de mensagens.
  * <p>
  * Esta implementação permite personalizar a exibição de mensagens de acordo com
- * seu tipo (informatica ou erro).
+ * seu tipo (informativa ou erro).
  * 
  * @author eraldo
  *
