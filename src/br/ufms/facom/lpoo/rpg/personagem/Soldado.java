@@ -11,6 +11,7 @@ import br.ufms.facom.lpoo.rpg.arma.Faca;
  * @author eraldo
  *
  */
+public abstract class Soldado implements Personagem {
 
 	/**
 	 * Arma do soldado.
