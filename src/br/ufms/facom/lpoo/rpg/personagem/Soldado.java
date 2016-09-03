@@ -32,6 +32,7 @@ public abstract class Soldado implements Personagem {
 	 */
 	private Posicao posicao;
 	
+<<<<<<< HEAD
 	/**
 	 * Probabilidade do soldado atacar.
 	 */
@@ -41,6 +42,8 @@ public abstract class Soldado implements Personagem {
 	 * Probabilidade do soldado de defender.
 	 */
 	private int defesa;
+=======
+>>>>>>> origin/master
 
 	private int distancia;
 	
@@ -55,7 +58,6 @@ public abstract class Soldado implements Personagem {
 		ataque = 2;
 		defesa = 1;
 		posicao = new Posicao();
-		distancia = 2;
 	}
 
 	/**
@@ -82,7 +84,7 @@ public abstract class Soldado implements Personagem {
 
 	@Override
 	public int getVelocidade() {
-		return 0;
+		return 2;
 	}
 
 	@Override
@@ -125,8 +127,4 @@ public abstract class Soldado implements Personagem {
 		this.vida = vida;
 	}
 	
-	public int getDistancia()
-	{
-		return distancia;
-	}
 }

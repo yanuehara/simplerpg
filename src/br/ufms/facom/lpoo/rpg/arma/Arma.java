@@ -18,4 +18,6 @@ public interface Arma {
 	 * @return
 	 */
 	public int getAlcance();
+	
+	public int getDano();
 }
