@@ -1,12 +1,11 @@
 package br.ufms.facom.lpoo.rpg.personagem;
 
 import br.ufms.facom.lpoo.rpg.arma.Arma;
-import br.ufms.facom.lpoo.rpg.arma.Faca;
 
 /**
  * Personagem soldado.
  * <p>
- * Este é apenas um exemplo que não respeita os requisitos do trabalho.
+ * Esta classe possui todos os atributos e métodos básicos do personagem soldado.
  * 
  * @author eraldo
  *
@@ -16,7 +15,7 @@ public abstract class Soldado implements Personagem {
 	/**
 	 * Arma do soldado.
 	 */
-	private Arma arma;
+	protected Arma arma;
 
 	/**
 	 * Nível de vida do soldado.
@@ -33,8 +32,18 @@ public abstract class Soldado implements Personagem {
 	 */
 	private Posicao posicao;
 	
-	private int distancia;
+	/**
+	 * Probabilidade do soldado atacar.
+	 */
+	private int ataque;
+	
+	/**
+	 * Probabilidade do soldado de defender.
+	 */
+	private int defesa;
 
+	private int distancia;
+	
 	/**
 	 * Cria um soldado com o nome dado.
 	 * 
@@ -43,6 +52,8 @@ public abstract class Soldado implements Personagem {
 	public Soldado(String nome) {
 		this.nome = nome;
 		vida = 5;
+		ataque = 2;
+		defesa = 1;
 		posicao = new Posicao();
 		distancia = 2;
 	}
@@ -61,12 +72,12 @@ public abstract class Soldado implements Personagem {
 
 	@Override
 	public int getDefesa() {
-		return 0;
+		return this.defesa;
 	}
 
 	@Override
 	public int getAtaque() {
-		return 0;
+		return this.ataque;
 	}
 
 	@Override

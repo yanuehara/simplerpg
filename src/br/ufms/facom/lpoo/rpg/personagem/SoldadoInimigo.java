@@ -1,20 +1,21 @@
 package br.ufms.facom.lpoo.rpg.personagem;
 
 /**
- * Personagem soldado aliado.
+ * Personagem soldado inimigo.
  * <p>
- * Esta classe implementa os diferentes tipos de Soldado Aliado.
+ * Esta classe implementa os diferentes tipos de soldado inimigo.
  *
  */
-public class SoldadoAliado extends Soldado {
+public class SoldadoInimigo extends Soldado {
+	
 	/**
-	 * Constrói um SoldadoAliado que possui uma pistola como arma.
+	 * Constrói um SoldadoInimigo que possui uma pistola como arma.
 	 * @param nome
 	 * @param pistola
 	 * @param x
 	 * @param y
 	 */
-	public SoldadoAliado(String nome, Pistola pistola, int x, int y) {
+	public SoldadoInimigo(String nome, Pistola pistola, int x, int y) {
 		super(nome, x, y);
 		arma = new Pistola();
 		
@@ -27,11 +28,9 @@ public class SoldadoAliado extends Soldado {
 	 * @param x
 	 * @param y
 	 */
-	public SoldadoAliado(String nome, Rifle rifle, int x, int y) {
+	public SoldadoInimigo(String nome, Rifle rifle, int x, int y) {
 		super(nome, x, y);
 		arma = new Rifle();
 		
 	}
-	
-
 }
