@@ -4,76 +4,76 @@ import br.ufms.facom.lpoo.rpg.personagem.Personagem;
 import br.ufms.facom.lpoo.rpg.personagem.Posicao;
 
 /**
- * Estado do processo de sele√ß√£o.
+ * Estado do processo de seleÁ„o.
  * 
  * @author eraldo
  *
  */
 enum EstadoSelecao {
 	/**
-	 * Processo de sele√ß√£o est√° desocupado. Nenhuma sele√ß√£o foi solicitada pela
+	 * Processo de seleÁ„o est· desocupado. Nenhuma seleÁ„o foi solicitada pela
 	 * thread de controle.
 	 */
 	DESOCUPADO,
 
 	/**
-	 * Processo de sele√ß√£o est√° aguardando a sele√ß√£o de um personagem. A thread
-	 * de controle solicitou a sele√ß√£o de um personagem e est√° aguardando o
-	 * usu√°rio selecionar.
+	 * Processo de seleÁ„o est· aguardando a seleÁ„o de um personagem. A thread
+	 * de controle solicitou a seleÁ„o de um personagem e est· aguardando o
+	 * usu·rio selecionar.
 	 */
 	PERSONAGEM,
 
 	/**
-	 * Processo de leitura est√° aguardando a sele√ß√£o de uma posi√ß√£o. A thread de
-	 * controle solicitou a sele√ß√£o de uma posi√ß√£o (casa do tabuleiro) e est√°
-	 * aguardando o usu√°rio selecionar.
+	 * Processo de leitura est· aguardando a seleÁ„o de uma posiÁ„o. A thread de
+	 * controle solicitou a seleÁ„o de uma posiÁ„o (casa do tabuleiro) e est·
+	 * aguardando o usu·rio selecionar.
 	 */
 	POSICAO
 }
 
 /**
- * Controla o processo de sele√ß√£o de personagem ou de posi√ß√£o no tabuleiro.
+ * Controla o processo de seleÁ„o de personagem ou de posiÁ„o no tabuleiro.
  * <p>
- * Um objeto desta classe √© usada para duas fun√ß√µes:
+ * Um objeto desta classe È usada para duas funÁıes:
  * 
  * <ul>
- * <li>para sincronizar as threads produtoras e consumidoras das sele√ß√µes
- * (aplica√ß√£o e controle, respectivamente); e</li>
+ * <li>para sincronizar as threads produtoras e consumidoras das seleÁıes
+ * (aplicaÁ„o e controle, respectivamente); e</li>
  * <li>para armazenar os objetos selecionados.</li>
  * </ul>
  * <p>
- * Apesar do atributo <code>estado</code> possuir tr√™s valores poss√≠veis, o
- * processo de sele√ß√£o possui dois estados intermedi√°rios adicionais que s√£o
- * usados para controlar o processo produtor-consumidor. O processo de sele√ß√£o
+ * Apesar do atributo <code>estado</code> possuir trÍs valores possÌveis, o
+ * processo de seleÁ„o possui dois estados intermedi·rios adicionais que s„o
+ * usados para controlar o processo produtor-consumidor. O processo de seleÁ„o
  * de personagem segue o fluxo apresentado abaixo.
  * <ol>
- * <li>A thread de cotrole invoca o m√©todo <code>selecionaPersonagem()</code> da
- * aplica√ß√£o. Neste momento, <code>estado</code> deve conter o valor
- * <code>DESOCUPADO</code>. Se n√£o for o caso, a thread de controle √© bloqueada
- * at√© que esta condi√ß√£o torne-se verdadeira. (Entretanto, este caso nunca deve
- * ocorrer nesta implementa√ß√£o, pois temos apenas uma thread consumidora.)</li>
+ * <li>A thread de cotrole invoca o mÈtodo <code>selecionaPersonagem()</code> da
+ * aplicaÁ„o. Neste momento, <code>estado</code> deve conter o valor
+ * <code>DESOCUPADO</code>. Se n„o for o caso, a thread de controle È bloqueada
+ * atÈ que esta condiÁ„o torne-se verdadeira. (Entretanto, este caso nunca deve
+ * ocorrer nesta implementaÁ„o, pois temos apenas uma thread consumidora.)</li>
  * 
- * <li>O valor de <code>estado</code> √© alterado para <code>PERSONAGEM</code> e
- * o valor de <code>personagem</code> √© alterado para <code>null</code>. A
- * thread de controle √© ent√£o bloqueada at√© que o valor de
+ * <li>O valor de <code>estado</code> È alterado para <code>PERSONAGEM</code> e
+ * o valor de <code>personagem</code> È alterado para <code>null</code>. A
+ * thread de controle È ent„o bloqueada atÈ que o valor de
  * <code>personagem</code> seja diferente de <code>null</code>.</li>
  * 
- * <li>Quando o usu√°rio seleciona um personagem no tabuleiro, o valor de
- * <code>estado</code> √© igual a <code>PERSONAGEM</code> e o valor do atributo
- * <code>personagem</code> √© igual a <code>null</code>, ent√£o a thread da
- * aplica√ß√£o sabe que deve atribuir o objeto personagem selecionado ao atributo
- * <code>personagem</code>. Logo em seguida, a thread da aplica√ß√£o notifica a
+ * <li>Quando o usu·rio seleciona um personagem no tabuleiro, o valor de
+ * <code>estado</code> È igual a <code>PERSONAGEM</code> e o valor do atributo
+ * <code>personagem</code> È igual a <code>null</code>, ent„o a thread da
+ * aplicaÁ„o sabe que deve atribuir o objeto personagem selecionado ao atributo
+ * <code>personagem</code>. Logo em seguida, a thread da aplicaÁ„o notifica a
  * thread de controle.</li>
  * 
- * <li>A thread de controle √© notificada (lembrando que ela estava bloqueada
- * dentro do m√©todo <code>selecionaPersonagem()</code>). Ent√£o esta thread obt√©m
+ * <li>A thread de controle È notificada (lembrando que ela estava bloqueada
+ * dentro do mÈtodo <code>selecionaPersonagem()</code>). Ent„o esta thread obtÈm
  * o personagem do atributo <code>personagem</code> e o retorna. Antes de
- * retornar, por√©m, a thread altera o valor de <code>estado</code> para
+ * retornar, porÈm, a thread altera o valor de <code>estado</code> para
  * <code>DESOCUPADO</code> e o valor de <code>personagem</code> para
  * <code>null</code>.</li>
  * </ol>
  * 
- * O processo de sele√ß√£o de posi√ß√£o √© an√°logo. Ao inv√©s de usar os atributos
+ * O processo de seleÁ„o de posiÁ„o È an·logo. Ao invÈs de usar os atributos
  * <code>estado=PERSONAGEM</code> e <code>personagem</code>, este processo usa
  * os atributos <code>estado=POSICAO</code> e <code>posicao</code>.
  * 
@@ -82,7 +82,7 @@ enum EstadoSelecao {
  */
 class SelecaoTabuleiro {
 	/**
-	 * Estado da sele√ß√£o.
+	 * Estado da seleÁ„o.
 	 */
 	EstadoSelecao estado;
 
@@ -92,12 +92,12 @@ class SelecaoTabuleiro {
 	Personagem personagem;
 
 	/**
-	 * Casa (posi√ß√£o) selecionada.
+	 * Casa (posiÁ„o) selecionada.
 	 */
 	Posicao pos;
 
 	/**
-	 * Construtor padr√£o.
+	 * Construtor padr„o.
 	 */
 	SelecaoTabuleiro() {
 		estado = EstadoSelecao.DESOCUPADO;

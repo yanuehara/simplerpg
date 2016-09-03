@@ -3,7 +3,7 @@ package br.ufms.facom.lpoo.rpg.arma;
 /**
  * Implementa uma arma: faca.
  * <p>
- * Esta implementaÃ§Ã£o Ã© apenas um exemplo que nÃ£o segue as especificaÃ§Ãµes do
+ * Esta implementação é apenas um exemplo que não segue as especificações do
  * trabalho.
  * 
  * @author eraldo

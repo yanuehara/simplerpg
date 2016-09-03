@@ -5,9 +5,9 @@ import javafx.scene.paint.Color;
 import javafx.util.Pair;
 
 /**
- * Exibe uma cÃ©lula da lista de mensagens.
+ * Exibe uma célula da lista de mensagens.
  * <p>
- * Esta implementaÃ§Ã£o permite personalizar a exibiÃ§Ã£o de mensagens de acordo com
+ * Esta implementação permite personalizar a exibição de mensagens de acordo com
  * seu tipo (informativa ou erro).
  * 
  * @author eraldo
@@ -23,14 +23,14 @@ class MensagemCell extends ListCell<Pair<String, Boolean>> {
 		setWrapText(true);
 
 		if (!empty && item != null) {
-			// Configura o conteÃºdo e a cor do texto.
+			// Configura o conteúdo e a cor do texto.
 			setText(item.getKey());
 			if (item.getValue().booleanValue())
 				setTextFill(Color.RED);
 			else
 				setTextFill(Color.BLACK);
 		} else {
-			// CÃ©lulas vazias.
+			// Células vazias.
 			setText(null);
 			setGraphic(null);
 		}

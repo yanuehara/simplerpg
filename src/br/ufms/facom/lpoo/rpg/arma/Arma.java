@@ -8,12 +8,12 @@ package br.ufms.facom.lpoo.rpg.arma;
  */
 public interface Arma {
 	/**
-	 * Alcance da arma em nÃºmero de casas de acordo com a distÃ¢ncia de Manhattan
+	 * Alcance da arma em número de casas de acordo com a distância de Manhattan
 	 * (d = |x1 - x2| + |y1 - y2|). Este valor deve ser um inteiro no intervalo
 	 * [1,5].
 	 * <p>
-	 * Armas de combate corpo a corpo tÃªm alcance igual a 1. Armas de combate a
-	 * distÃ¢ncia tÃªm alcance maior do que 1.
+	 * Armas de combate corpo a corpo têm alcance igual a 1. Armas de combate a
+	 * distância têm alcance maior do que 1.
 	 * 
 	 * @return
 	 */

@@ -31,9 +31,9 @@ import javafx.util.Pair;
 /**
  * Interface do RPG.
  * <p>
- * Implementa a exibi√ß√£o do tabuleiro (casas e personagens com suas armas,
- * n√≠veis de vida, nomes), exibi√ß√£o das mensagens e entradas do usu√°rio (sele√ß√£o
- * de posi√ß√£o e sele√ß√£o de personagem).
+ * Implementa a exibiÁ„o do tabuleiro (casas e personagens com suas armas,
+ * nÌveis de vida, nomes), exibiÁ„o das mensagens e entradas do usu·rio (seleÁ„o
+ * de posiÁ„o e seleÁ„o de personagem).
  * 
  * @author eraldo
  *
@@ -45,13 +45,13 @@ public class RolePlayingGame extends Application {
 	private Canvas canvas;
 
 	/**
-	 * Lista de mensagens. Cada mensagem √© um par (String,Boolean). O valor
-	 * booleano indica se a mensagem √© de erro ou n√£o.
+	 * Lista de mensagens. Cada mensagem È um par (String,Boolean). O valor
+	 * booleano indica se a mensagem È de erro ou n„o.
 	 */
 	private ObservableList<Pair<String, Boolean>> mensagens;
 
 	/**
-	 * Armazena os √≠cones dos personagens adicionados ao tabuleiro.
+	 * Armazena os Ìcones dos personagens adicionados ao tabuleiro.
 	 */
 	private Map<String, Image> icons;
 
@@ -71,17 +71,17 @@ public class RolePlayingGame extends Application {
 	private Thread threadControle;
 
 	/**
-	 * Objeto usado na sincroniza√ß√£o da entrada do usu√°rio (sele√ß√£o de posi√ß√£o e
+	 * Objeto usado na sincronizaÁ„o da entrada do usu·rio (seleÁ„o de posiÁ„o e
 	 * de personagem com o mouse).
 	 * <p>
-	 * O procedimento de entrada √© implementado como um produtor-consumidor. A
-	 * thread de controle √© o consumidor (de posi√ß√µes e de personagens). A
-	 * interface (thread da aplica√ß√£o) √© o produtor. Entretanto, a produ√ß√£o √©
-	 * solicitada pelo consumidor (controle). Somente ap√≥s o controle solicitar
-	 * uma entrada (posi√ß√£o ou personagem) √© que a entrada √© produzida. Quando a
-	 * entrada √© solicitada pelo controle, a thread de controle √© bloqueada e a
-	 * interface aguarda o usu√°rio fazer a sele√ß√£o adequada. Assim que o usu√°rio
-	 * seleciona a entrada esperada, a interface a fornece √† thread de controle.
+	 * O procedimento de entrada È implementado como um produtor-consumidor. A
+	 * thread de controle È o consumidor (de posiÁıes e de personagens). A
+	 * interface (thread da aplicaÁ„o) È o produtor. Entretanto, a produÁ„o È
+	 * solicitada pelo consumidor (controle). Somente apÛs o controle solicitar
+	 * uma entrada (posiÁ„o ou personagem) È que a entrada È produzida. Quando a
+	 * entrada È solicitada pelo controle, a thread de controle È bloqueada e a
+	 * interface aguarda o usu·rio fazer a seleÁ„o adequada. Assim que o usu·rio
+	 * seleciona a entrada esperada, a interface a fornece ‡ thread de controle.
 	 */
 	private SelecaoTabuleiro selecao;
 
@@ -116,7 +116,7 @@ public class RolePlayingGame extends Application {
 	private static final int CELL_H = H / MAX_Y;
 
 	/**
-	 * Ponto de entrada da aplica√ß√£o.
+	 * Ponto de entrada da aplicaÁ„o.
 	 * 
 	 * @param args
 	 */
@@ -136,8 +136,8 @@ public class RolePlayingGame extends Application {
 	}
 
 	/**
-	 * Adiciona o personagem <code>p</code> ao tabuleiro. Este personagem ser√°
-	 * desenhado na pr√≥xima chamada ao m√©todo <code>atualizaTabuleiro()</code>.
+	 * Adiciona o personagem <code>p</code> ao tabuleiro. Este personagem ser·
+	 * desenhado na prÛxima chamada ao mÈtodo <code>atualizaTabuleiro()</code>.
 	 * 
 	 * @param p
 	 */
@@ -151,7 +151,7 @@ public class RolePlayingGame extends Application {
 	 * @param p
 	 *            personagem a ser removido.
 	 * @return <code>true</code> se o personagem foi removido com sucesso;
-	 *         <code>false</code> caso o personagem n√£o esteja no tabuleiro.
+	 *         <code>false</code> caso o personagem n„o esteja no tabuleiro.
 	 */
 	public boolean removePersonagem(Personagem p) {
 		return personagens.remove(p);
@@ -186,7 +186,7 @@ public class RolePlayingGame extends Application {
 	}
 
 	/**
-	 * Atualiza a exibi√ß√£o do tabuleiro.
+	 * Atualiza a exibiÁ„o do tabuleiro.
 	 */
 	public void atualizaTabuleiro() {
 		Platform.runLater(new Runnable() {
@@ -199,15 +199,15 @@ public class RolePlayingGame extends Application {
 	}
 
 	/**
-	 * Espera o usu√°rio selecionar um personagem no tabuleiro e o retorna.
+	 * Espera o usu·rio selecionar um personagem no tabuleiro e o retorna.
 	 * <p>
-	 * Este m√©todo deve ser chamado pela thread de controle. A thread ficar√°
-	 * bloqueada at√© o usu√°rio selecionar um personagem ou a aplica√ß√£o ser
+	 * Este mÈtodo deve ser chamado pela thread de controle. A thread ficar·
+	 * bloqueada atÈ o usu·rio selecionar um personagem ou a aplicaÁ„o ser
 	 * finalizada.
 	 * 
 	 * @return personagem selecionado.
 	 * @throws InterruptedException
-	 *             caso a aplica√ß√£o seja finalizada antes da sele√ß√£o do usu√°rio.
+	 *             caso a aplicaÁ„o seja finalizada antes da seleÁ„o do usu·rio.
 	 */
 	public Personagem selecionaPersonagem() throws InterruptedException {
 		synchronized (selecao) {
@@ -229,15 +229,15 @@ public class RolePlayingGame extends Application {
 	}
 
 	/**
-	 * Espera o usu√°rio selecionar uma casa do tabuleiro e a retorna.
+	 * Espera o usu·rio selecionar uma casa do tabuleiro e a retorna.
 	 * <p>
-	 * Este m√©todo deve ser chamado pela thread de controle. A thread ficar√°
-	 * bloqueada at√© o usu√°rio selecionar uma casa ou a aplica√ß√£o ser
+	 * Este mÈtodo deve ser chamado pela thread de controle. A thread ficar·
+	 * bloqueada atÈ o usu·rio selecionar uma casa ou a aplicaÁ„o ser
 	 * finalizada.
 	 * 
-	 * @return a casa (posi√ß√£o) selecionada.
+	 * @return a casa (posiÁ„o) selecionada.
 	 * @throws InterruptedException
-	 *             caso a aplica√ß√£o seja finalizada antes da sele√ß√£o do usu√°rio.
+	 *             caso a aplicaÁ„o seja finalizada antes da seleÁ„o do usu·rio.
 	 */
 	public Posicao selecionaPosicao() throws InterruptedException {
 		synchronized (selecao) {
@@ -281,12 +281,12 @@ public class RolePlayingGame extends Application {
 	 */
 	private void desenhaPersonagens(GraphicsContext gc) {
 		for (Personagem p : personagens) {
-			// Converte posi√ß√£o em c√©lulas para pixels.
+			// Converte posiÁ„o em cÈlulas para pixels.
 			double x = p.getX() * CELL_W;
 			double y = p.getY() * CELL_H;
-			// Desenha √≠cone do personagem.
+			// Desenha Ìcone do personagem.
 			gc.drawImage(getIcon(p), x, y);
-			// Desenha √≠cone da arma.
+			// Desenha Ìcone da arma.
 			gc.drawImage(getIcon(p.getArma()), x + 72, y + 72);
 			// Desenha nome do personagem.
 			gc.setStroke(Color.BLUE);
@@ -310,7 +310,7 @@ public class RolePlayingGame extends Application {
 	}
 
 	/**
-	 * Dado um objeto associado a um √≠cone (personagem ou arma), carrega a
+	 * Dado um objeto associado a um Ìcone (personagem ou arma), carrega a
 	 * imagem correspondente.
 	 * 
 	 * @param o
@@ -328,13 +328,13 @@ public class RolePlayingGame extends Application {
 
 	/**
 	 * Trata o evento de clique sobre o tabuleiro. As coordenadas fornecidas
-	 * (<code>x</code> e <code>y</code>) j√° est√£o convertidas em casas do
+	 * (<code>x</code> e <code>y</code>) j· est„o convertidas em casas do
 	 * tabuleiro (coluna e linha).
 	 * 
 	 * @param x
-	 *            √≠ndice horizontal (coluna) da casa que foi clicada.
+	 *            Ìndice horizontal (coluna) da casa que foi clicada.
 	 * @param y
-	 *            √≠ndice vertical (linha) da casa que foi clicada.
+	 *            Ìndice vertical (linha) da casa que foi clicada.
 	 */
 	private void onCanvasClick(int x, int y) {
 		synchronized (selecao) {
@@ -342,18 +342,18 @@ public class RolePlayingGame extends Application {
 			case PERSONAGEM:
 				if (selecao.personagem != null) {
 					/*
-					 * Um personagem j√° foi selecionado, mas n√£o foi consumido.
+					 * Um personagem j· foi selecionado, mas n„o foi consumido.
 					 * Notica todas as threads e retorna.
 					 */
 					selecao.notifyAll();
 					return;
 				}
 
-				// Busca personagem que est√° na c√©lula selecionada.
+				// Busca personagem que est· na cÈlula selecionada.
 				for (Personagem p : personagens) {
 					if (p.getX() == x && p.getY() == y) {
 						/*
-						 * Encontrou um persona naquela posi√ß√£o. Armazena ele no
+						 * Encontrou um persona naquela posiÁ„o. Armazena ele no
 						 * objeto selecao, notifica todas as threads e retorna.
 						 */
 						selecao.personagem = p;
@@ -363,7 +363,7 @@ public class RolePlayingGame extends Application {
 				}
 
 				/*
-				 * Usu√°rio clicou sobre uma c√©lula que n√£o cont√©m um personagem.
+				 * Usu·rio clicou sobre uma cÈlula que n„o contÈm um personagem.
 				 * Espera outro clique.
 				 */
 				return;
@@ -371,7 +371,7 @@ public class RolePlayingGame extends Application {
 			case POSICAO:
 				if (selecao.pos != null) {
 					/*
-					 * Uma posi√ß√£o j√° foi selecionada, mas n√£o foi consumida.
+					 * Uma posiÁ„o j· foi selecionada, mas n„o foi consumida.
 					 * Notica todas as threads e retorna.
 					 */
 					selecao.notifyAll();
@@ -379,7 +379,7 @@ public class RolePlayingGame extends Application {
 				}
 
 				/*
-				 * Atualiza a posi√ß√£o selecionada, notifica todas as threads e
+				 * Atualiza a posiÁ„o selecionada, notifica todas as threads e
 				 * retorna.
 				 */
 				selecao.pos = new Posicao(x, y);
@@ -389,10 +389,10 @@ public class RolePlayingGame extends Application {
 			default:
 				/*
 				 * Estado desconhecido. Notifica todas as threads e retorna.
-				 * Isto √© apenas por robustez, pois este caso n√£o deveria
+				 * Isto È apenas por robustez, pois este caso n„o deveria
 				 * ocorrer.
 				 */
-				System.err.println("Estado de sele√ß√£o inv√°lido!");
+				System.err.println("Estado de seleÁ„o inv·lido!");
 				selecao.notifyAll();
 				return;
 
@@ -423,7 +423,7 @@ public class RolePlayingGame extends Application {
 		viewMensagens.setCellFactory((ListView<Pair<String, Boolean>> l) -> new MensagemCell());
 		viewMensagens.setItems(mensagens);
 
-		// Painel de bot√µes.
+		// Painel de botıes.
 		FlowPane paneBotoes = new FlowPane();
 		paneBotoes.setAlignment(Pos.CENTER);
 		grid.add(paneBotoes, 1, 1);
@@ -444,7 +444,7 @@ public class RolePlayingGame extends Application {
 
 		/*
 		 * Cria a thread de controle que fica, indefinidamente, invocando o
-		 * m√©todo controle.executaTurno().
+		 * mÈtodo controle.executaTurno().
 		 */
 		threadControle = new Thread(new Runnable() {
 			@Override

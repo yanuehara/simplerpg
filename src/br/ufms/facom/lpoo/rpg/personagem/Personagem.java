@@ -27,9 +27,9 @@ public interface Personagem {
 	/**
 	 * Velocidade do personagem: um valor inteiro no intervalo [1,5].
 	 * <p>
-	 * Este valor indica o m√°ximo de casas que o personagem pode se mover por
-	 * turno. Sendo que a movimenta√ß√£o √© restrita √†s dire√ß√µes verticais e
-	 * horizontais, ou seja, n√£o √© permitido que o personagem se movimente na
+	 * Este valor indica o m·ximo de casas que o personagem pode se mover por
+	 * turno. Sendo que a movimentaÁ„o È restrita ‡s direÁıes verticais e
+	 * horizontais, ou seja, n„o È permitido que o personagem se movimente na
 	 * diagonal.
 	 * 
 	 * @return
@@ -37,16 +37,16 @@ public interface Personagem {
 	public int getVelocidade();
 
 	/**
-	 * N√≠vel de vida do personagem: um valor inteiro no intervalo [0,5].
+	 * NÌvel de vida do personagem: um valor inteiro no intervalo [0,5].
 	 * <p>
-	 * Quando o personagem tem n√≠vel de vida igual a zero, ele est√° morto.
+	 * Quando o personagem tem nÌvel de vida igual a zero, ele est· morto.
 	 * 
 	 * @return
 	 */
 	public int getVida();
 
 	/**
-	 * Altera o n√≠vel de vida do personagem.
+	 * Altera o nÌvel de vida do personagem.
 	 * 
 	 * @param vida
 	 */
@@ -67,28 +67,28 @@ public interface Personagem {
 	public String getNome();
 
 	/**
-	 * Retorna o √≠ndice horizontal da posi√ß√£o do personagem no tabuleiro (casa).
+	 * Retorna o Ìndice horizontal da posiÁ„o do personagem no tabuleiro (casa).
 	 * 
 	 * @return
 	 */
 	public int getX();
 
 	/**
-	 * Altera a posi√ß√£o do personagem (√≠ndice horizontal).
+	 * Altera a posiÁ„o do personagem (Ìndice horizontal).
 	 * 
 	 * @param x
 	 */
 	public void setX(int x);
 
 	/**
-	 * Retorna o √≠ndice vertical da posi√ß√£o do personagem no tabuleiro (casa).
+	 * Retorna o Ìndice vertical da posiÁ„o do personagem no tabuleiro (casa).
 	 * 
 	 * @return
 	 */
 	public int getY();
 
 	/**
-	 * Altera a posi√ß√£o do personagem (√≠ndice vertical).
+	 * Altera a posiÁ„o do personagem (Ìndice vertical).
 	 * 
 	 * @param y
 	 */

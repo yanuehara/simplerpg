@@ -6,7 +6,7 @@ import br.ufms.facom.lpoo.rpg.arma.Faca;
 /**
  * Personagem soldado.
  * <p>
- * Este √© apenas um exemplo que n√£o respeita os requisitos do trabalho.
+ * Este È apenas um exemplo que n„o respeita os requisitos do trabalho.
  * 
  * @author eraldo
  *
@@ -19,7 +19,7 @@ public class Soldado implements Personagem {
 	private Arma arma;
 
 	/**
-	 * N√≠vel de vida do soldado.
+	 * NÌvel de vida do soldado.
 	 */
 	private int vida;
 
@@ -29,9 +29,11 @@ public class Soldado implements Personagem {
 	private String nome;
 
 	/**
-	 * Posi√ß√£o do soldado no tabuleiro.
+	 * PosiÁ„o do soldado no tabuleiro.
 	 */
 	private Posicao posicao;
+	
+	private int distancia;
 
 	/**
 	 * Cria um soldado com o nome dado.
@@ -43,10 +45,11 @@ public class Soldado implements Personagem {
 		arma = new Faca();
 		vida = 5;
 		posicao = new Posicao();
+		distancia = 2;
 	}
 
 	/**
-	 * Cria um soldado com o nome e posi√ß√£o dados.
+	 * Cria um soldado com o nome e posiÁ„o dados.
 	 * 
 	 * @param nome
 	 * @param x
@@ -110,5 +113,10 @@ public class Soldado implements Personagem {
 	@Override
 	public void setVida(int vida) {
 		this.vida = vida;
+	}
+	
+	public int getDistancia()
+	{
+		return distancia;
 	}
 }
