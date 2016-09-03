@@ -11,7 +11,6 @@ import br.ufms.facom.lpoo.rpg.arma.Faca;
  * @author eraldo
  *
  */
-public class Soldado implements Personagem {
 
 	/**
 	 * Arma do soldado.
@@ -42,7 +41,6 @@ public class Soldado implements Personagem {
 	 */
 	public Soldado(String nome) {
 		this.nome = nome;
-		arma = new Faca();
 		vida = 5;
 		posicao = new Posicao();
 		distancia = 2;
