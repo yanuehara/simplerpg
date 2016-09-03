@@ -76,7 +76,17 @@ public class Controle {
 	 *             capturada aqui.
 	 */
 	
-	public boolean alteraPosicao(int x1, int y1, int x2, int y2, int distancia, String personagem){
+	/**
+	 * 
+	 * @param x1
+	 * @param y1
+	 * @param x2
+	 * @param y2
+	 * @param distancia
+	 * @param personagem
+	 * @return true se pode se mover, else se não
+	 */
+	public boolean testaPosicao(int x1, int y1, int x2, int y2, int distancia, String personagem){
 		if((Math.abs(x1 - x2) + Math.abs(y1 - y2)) > distancia)
 		{
 			rpg.erro(String.format("Personagem %s, só pode andar %d de distância", personagem, distancia));
@@ -104,10 +114,10 @@ public class Controle {
 		Posicao pos = rpg.selecionaPosicao();
 
 		// Altera a posição do personagem 1.
-		nmoveu = alteraPosicao(sold1.getX(), sold1.getY(), pos.x, pos.y, sold1.getDistancia(), sold1.getNome());
+		nmoveu = testaPosicao(sold1.getX(), sold1.getY(), pos.x, pos.y, sold1.getVelocidade(), sold1.getNome());
 		while(nmoveu){
 			pos = rpg.selecionaPosicao();
-			nmoveu = alteraPosicao(sold1.getX(), sold1.getY(), pos.x, pos.y, sold1.getDistancia(), sold1.getNome());
+			nmoveu = testaPosicao(sold1.getX(), sold1.getY(), pos.x, pos.y, sold1.getVelocidade(), sold1.getNome());
 		}
 		sold1.setX(pos.x);
 		sold1.setY(pos.y);
@@ -153,10 +163,10 @@ public class Controle {
 
 		rpg.info(String.format("Personagem %s, selecione sua nova posição!", sold2.getNome()));
 		pos = rpg.selecionaPosicao();
-		nmoveu = alteraPosicao(sold1.getX(), sold1.getY(), pos.x, pos.y, sold1.getDistancia(), sold2.getNome());
+		nmoveu = testaPosicao(sold1.getX(), sold1.getY(), pos.x, pos.y, sold1.getVelocidade(), sold2.getNome());
 		while(nmoveu){
 			pos = rpg.selecionaPosicao();
-			nmoveu = alteraPosicao(sold2.getX(), sold2.getY(), pos.x, pos.y, sold1.getDistancia(), sold2.getNome());
+			nmoveu = testaPosicao(sold2.getX(), sold2.getY(), pos.x, pos.y, sold1.getVelocidade(), sold2.getNome());
 		}
 		sold2.setX(pos.x);
 		sold2.setY(pos.y);

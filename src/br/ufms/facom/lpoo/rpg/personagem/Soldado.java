@@ -33,7 +33,6 @@ public abstract class Soldado implements Personagem {
 	 */
 	private Posicao posicao;
 	
-	private int distancia;
 
 	/**
 	 * Cria um soldado com o nome dado.
@@ -44,7 +43,6 @@ public abstract class Soldado implements Personagem {
 		this.nome = nome;
 		vida = 5;
 		posicao = new Posicao();
-		distancia = 2;
 	}
 
 	/**
@@ -71,7 +69,7 @@ public abstract class Soldado implements Personagem {
 
 	@Override
 	public int getVelocidade() {
-		return 0;
+		return 2;
 	}
 
 	@Override
@@ -114,8 +112,4 @@ public abstract class Soldado implements Personagem {
 		this.vida = vida;
 	}
 	
-	public int getDistancia()
-	{
-		return distancia;
-	}
 }
