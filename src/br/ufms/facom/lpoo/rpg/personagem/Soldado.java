@@ -32,7 +32,6 @@ public abstract class Soldado implements Personagem {
 	 */
 	private Posicao posicao;
 	
-<<<<<<< HEAD
 	/**
 	 * Probabilidade do soldado atacar.
 	 */
@@ -42,10 +41,10 @@ public abstract class Soldado implements Personagem {
 	 * Probabilidade do soldado de defender.
 	 */
 	private int defesa;
-=======
->>>>>>> origin/master
-
+	
 	private int distancia;
+	
+	private int velocidade;
 	
 	/**
 	 * Cria um soldado com o nome dado.
