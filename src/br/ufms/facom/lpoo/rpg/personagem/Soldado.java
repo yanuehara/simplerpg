@@ -42,8 +42,9 @@ public abstract class Soldado implements Personagem {
 	 */
 	private int defesa;
 	
-	private int distancia;
-	
+	/**
+	 * Distância que o soldado pode se mover no campo.
+	 */
 	private int velocidade;
 	
 	/**
@@ -57,6 +58,7 @@ public abstract class Soldado implements Personagem {
 		ataque = 2;
 		defesa = 1;
 		posicao = new Posicao();
+		velocidade = 2;
 	}
 
 	/**
@@ -83,7 +85,7 @@ public abstract class Soldado implements Personagem {
 
 	@Override
 	public int getVelocidade() {
-		return 2;
+		return this.velocidade;
 	}
 
 	@Override
