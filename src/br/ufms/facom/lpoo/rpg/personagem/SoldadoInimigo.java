@@ -1,5 +1,8 @@
 package br.ufms.facom.lpoo.rpg.personagem;
 
+import br.ufms.facom.lpoo.rpg.arma.Pistola;
+import br.ufms.facom.lpoo.rpg.arma.Rifle;
+
 /**
  * Personagem soldado inimigo.
  * <p>
@@ -17,7 +20,7 @@ public class SoldadoInimigo extends Soldado {
 	 */
 	public SoldadoInimigo(String nome, Pistola pistola, int x, int y) {
 		super(nome, x, y);
-		arma = new Pistola();
+		arma = pistola;
 		
 	}
 	
@@ -30,7 +33,7 @@ public class SoldadoInimigo extends Soldado {
 	 */
 	public SoldadoInimigo(String nome, Rifle rifle, int x, int y) {
 		super(nome, x, y);
-		arma = new Rifle();
+		arma = rifle;
 		
 	}
 }
