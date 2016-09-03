@@ -15,5 +15,9 @@ public class Faca implements Arma {
 	public int getAlcance() {
 		return 0;
 	}
-
+	
+	@Override
+	public int getDano(){
+		return 1;
+	}
 }
