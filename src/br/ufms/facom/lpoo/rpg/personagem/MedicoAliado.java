@@ -8,7 +8,7 @@ import br.ufms.facom.lpoo.rpg.arma.DesfibriladorAliado;
  * Esta classe implementa Médico Aliado.
  *
  */
-public class MedicoAliado extends Soldado {
+public class MedicoAliado extends Medico {
 	/**
 	 * Constrói um MedicoAliado que possui um desfibrilador como arma.
 	 * @param nome
