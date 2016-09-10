@@ -1,15 +1,22 @@
+/**
+ * 
+ */
 package br.ufms.facom.lpoo.rpg.arma;
 
-public abstract class Desfibrilador implements Arma {
+/**
+ * Implementa a arma minigun.
+ *
+ */
+public class MiniGun implements Arma {
 
 	@Override
 	public int getAlcance() {
-		return 1;
+		return 4;
 	}
 
 	@Override
 	public int getDano() {
-		return -3;	
+		return 3;
 	}
 
 }

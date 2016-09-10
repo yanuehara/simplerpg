@@ -11,7 +11,7 @@ public class Pistola implements Arma {
 	@Override
 	public int getDano() {
 		// TODO Auto-generated method stub
-		return 4;//
+		return 2;//
 	}
 
 

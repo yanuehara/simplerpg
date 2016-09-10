@@ -35,12 +35,12 @@ public abstract class Soldado implements Personagem {
 	/**
 	 * Probabilidade do soldado atacar.
 	 */
-	private int ataque;
+	protected int ataque;
 	
 	/**
 	 * Probabilidade do soldado de defender.
 	 */
-	private int defesa;
+	protected int defesa;
 	
 	/**
 	 * Distância que o soldado pode se mover no campo.
