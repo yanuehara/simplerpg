@@ -1,8 +1,7 @@
 package br.ufms.facom.lpoo.rpg.controle;
 
-import br.ufms.facom.lpoo.rpg.personagem.Personagem;
-import br.ufms.facom.lpoo.rpg.personagem.Posicao;
-import br.ufms.facom.lpoo.rpg.personagem.Soldado;
+import br.ufms.facom.lpoo.rpg.arma.*;
+import br.ufms.facom.lpoo.rpg.personagem.*;
 import br.ufms.facom.lpoo.rpg.ui.RolePlayingGame;
 
 /**
@@ -25,16 +24,29 @@ public class Controle {
 	 */
 	private RolePlayingGame rpg;
 
-	/**
-	 * Um personagem.
-	 */
-	private Soldado sold1;
+	private DesfibriladorAliado desfibrilador1 = new DesfibriladorAliado();
+	private DesfibriladorInimigo desfibrilador2 = new DesfibriladorInimigo();
+	private Morteiro morteiro = new Morteiro();
+	private Pistola pistola = new Pistola();
+	private Rifle rifle = new Rifle();
+	private Sniper sniper = new Sniper();
+	
+	private SoldadoAliado soldA1 = new SoldadoAliado("SoldA1", pistola, 0, 0);
+	private SoldadoAliado soldA2 = new SoldadoAliado("SoldA2", pistola, 1, 0);
+	private SoldadoAliado soldA3 = new SoldadoAliado("SoldA3", pistola, 2, 0);
+	private MedicoAliado medicoA1 = new MedicoAliado("MedicoA1", desfibrilador1, 3, 0);
+	private SniperAliado sniperA1 = new SniperAliado("SniperA1", sniper, 4, 0);
+	
+	private SoldadoInimigo soldI1 = new SoldadoInimigo("SoldI1", pistola, 6, 6);
+	private SoldadoInimigo soldI2 = new SoldadoInimigo("SoldI2", pistola, 5, 5);
+	private SoldadoInimigo soldI3 = new SoldadoInimigo("SoldI3", pistola, 4, 4);
+	private MedicoInimigo medicoI1 = new MedicoInimigo("MedicoI1", desfibrilador2, RolePlayingGame.MAX_X - 4, RolePlayingGame.MAX_Y - 0);
+	private SniperInimigo sniperI1 = new SniperInimigo("SniperI1", sniper, RolePlayingGame.MAX_X - 5, RolePlayingGame.MAX_Y - 0);
+	private MorteiroInimigo morteiroI1 = new MorteiroInimigo("MorteiroI1", morteiro,RolePlayingGame.MAX_X - 5, RolePlayingGame.MAX_Y - 0);
+	private MorteiroInimigo morteiroI2 = new MorteiroInimigo("MorteiroI2", morteiro,RolePlayingGame.MAX_X - 6, RolePlayingGame.MAX_Y - 0);
 
-	/**
-	 * Outro personagem.
-	 */
-	private Soldado sold2;
-
+	private Personagem[] personagensAliados = new Personagem[6];
+	private Personagem[] personagensInimigos = new Personagem[5];
 	/**
 	 * Cria um objeto de controle que usa o objeto <code>rpg</code> como
 	 * interface com o usuário.
@@ -45,13 +57,6 @@ public class Controle {
 	public Controle(RolePlayingGame rpg) {
 		this.rpg = rpg;
 
-		// Cria um personagem em um canto do tabuleiro e outro em outro canto.
-		sold1 = new Soldado("Sold1", 0, 0);
-		sold2 = new Soldado("Sold2", RolePlayingGame.MAX_X - 1, RolePlayingGame.MAX_Y - 1);
-
-		// Adiciona os dois personagens ao tabuleiro.
-		rpg.addPersonagem(sold2);
-		rpg.addPersonagem(sold1);
 	}
 
 	/**
@@ -99,87 +104,108 @@ public class Controle {
 	
 	public void executaTurno() throws InterruptedException {
 		boolean nmoveu;
-		/*
-		 * Exibe mensagem avisando que o usuário precisa selecionar a posição do
-		 * personagem 1.
-		 */
-		rpg.info(String.format("Personagem %s, selecione sua nova posição!", sold1.getNome()));
-
-		/*
-		 * Solicita uma casa do tabuleiro à interface. O usuário deverá
-		 * selecionar (clicando com o mouse) em uma casa do tabuleiro. As
-		 * coordenadas desta casa serão retornadas em um objeto Posicao
-		 * (coordenadas x e y).
-		 */
-		Posicao pos = rpg.selecionaPosicao();
-
-		// Altera a posição do personagem 1.
-		nmoveu = testaPosicao(sold1.getX(), sold1.getY(), pos.x, pos.y, sold1.getVelocidade(), sold1.getNome());
-		while(nmoveu){
-			pos = rpg.selecionaPosicao();
-			nmoveu = testaPosicao(sold1.getX(), sold1.getY(), pos.x, pos.y, sold1.getVelocidade(), sold1.getNome());
+		
+		// Fase 1
+		Posicao pos;
+		Personagem p;
+		
+		rpg.addPersonagem(soldA1);
+		rpg.addPersonagem(soldA2);
+		rpg.addPersonagem(soldA3);
+		rpg.addPersonagem(medicoA1);
+		rpg.addPersonagem(sniperA1);
+		
+		personagensAliados[0] = soldA1;
+		personagensAliados[1] = soldA2;
+		personagensAliados[2] = soldA3;
+		personagensAliados[3] = medicoA1;
+		personagensAliados[4] = sniperA1;
+		
+				
+		rpg.addPersonagem(soldI1);
+		rpg.addPersonagem(soldI2);
+		rpg.addPersonagem(soldI3);
+		
+		personagensInimigos[0] = soldI1;
+		personagensInimigos[1] = soldI2;
+		personagensInimigos[2] = soldI3;
+		
+		rpg.atualizaTabuleiro();
+		rpg.atualizaTabuleiro();
+		for(int j=0; j<2; j++)
+		{
+			for(int i=0; i<5; i++)
+			{
+				rpg.info(String.format("Personagem %s, selecione sua nova posição!", personagensAliados[i].getNome()));
+				pos = rpg.selecionaPosicao();
+				
+				nmoveu = testaPosicao(personagensAliados[i].getX(), personagensAliados[i].getY(), pos.x, pos.y, personagensAliados[i].getVelocidade(), personagensAliados[i].getNome());
+				while(nmoveu){
+					pos = rpg.selecionaPosicao();
+					nmoveu = testaPosicao(personagensAliados[i].getX(), personagensAliados[i].getY(), pos.x, pos.y, personagensAliados[i].getVelocidade(), personagensAliados[i].getNome());
+				}
+				personagensAliados[i].setX(pos.x);
+				personagensAliados[i].setY(pos.y);
+				
+				rpg.atualizaTabuleiro();
+				
+				rpg.info(String.format("Personagem %s, selecione um inimigo para atacar!", personagensAliados[i].getNome()));
+				
+				 p = rpg.selecionaPersonagem();
+				 
+				if (p != personagensAliados[i])
+					p.setVida(p.getVida() - 1);
+				else
+					rpg.erro("Você não pode atacar você mesmo! Perdeu a vez.");
+	
+				rpg.atualizaTabuleiro();
+			}
+			
+			for(int i=0; i<3; i++)
+			{
+				rpg.info(String.format("Personagem %s, selecione sua nova posição!", personagensInimigos[i].getNome()));
+				pos = rpg.selecionaPosicao();
+				
+				nmoveu = testaPosicao(personagensInimigos[i].getX(), personagensInimigos[i].getY(), pos.x, pos.y, personagensInimigos[i].getVelocidade(), personagensInimigos[i].getNome());
+				while(nmoveu){
+					pos = rpg.selecionaPosicao();
+					nmoveu = testaPosicao(personagensInimigos[i].getX(), personagensInimigos[i].getY(), pos.x, pos.y, personagensInimigos[i].getVelocidade(), personagensInimigos[i].getNome());
+				}
+				personagensInimigos[i].setX(pos.x);
+				personagensInimigos[i].setY(pos.y);
+				
+				rpg.atualizaTabuleiro();
+				
+				rpg.info(String.format("Personagem %s, selecione um inimigo para atacar!", personagensInimigos[i].getNome()));
+				
+				 p = rpg.selecionaPersonagem();
+				 
+				if (p != personagensInimigos[i])
+					p.setVida(p.getVida() - 1);
+				else
+					rpg.erro("Você não pode atacar você mesmo! Perdeu a vez.");
+	
+				rpg.atualizaTabuleiro();
+			}
 		}
-		sold1.setX(pos.x);
-		sold1.setY(pos.y);
-
-		/*
-		 * Solicita à interface que o tabuleiro seja atualizado, pois a posição
-		 * do personagem pode ter sido alterada.
-		 */
+		
+		rpg.removePersonagem(soldA1);
+		rpg.removePersonagem(soldA2);
+		rpg.removePersonagem(soldA3);
+		rpg.removePersonagem(medicoA1);
+		rpg.removePersonagem(sniperA1);
+		
+		rpg.removePersonagem(soldI1);
+		rpg.removePersonagem(soldI2);
+		rpg.removePersonagem(soldI3);
+		
 		rpg.atualizaTabuleiro();
-
-		/*
-		 * Exibe mensagem avisando que o usuário precisa selecionar um oponente
-		 * a ser atacado pelo personagem 1.
-		 */
-		rpg.info(String.format("Personagem %s, selecione um inimigo para atacar!", sold1.getNome()));
-
-		/*
-		 * Solicita um personagem à interface. O usuário deverá selecionar um
-		 * personagem no tabuleiro (clicando com o mouse sobre o personagem).
-		 */
-		Personagem p = rpg.selecionaPersonagem();
-
-		/*
-		 * A única validação realizada é se o personagem não o mesmo que está
-		 * atacando. Entretanto, no trabalho, diversas validações são
-		 * necessárias.
-		 */
-		if (p != sold1)
-			p.setVida(p.getVida() - 1);
-		else
-			rpg.erro("Você não pode atacar você mesmo! Perdeu a vez.");
-
-		/*
-		 * Solicita à interface que o tabuleiro seja atualizado, pois os pontos
-		 * de vida de um personagem podem ter sido alterados.
-		 */
-		rpg.atualizaTabuleiro();
-
-		/*
-		 * Abaixo, as mesmas operações realizadas com o personagem 1 são
-		 * realizadas com o personagem 2.
-		 */
-
-		rpg.info(String.format("Personagem %s, selecione sua nova posição!", sold2.getNome()));
-		pos = rpg.selecionaPosicao();
-		nmoveu = testaPosicao(sold1.getX(), sold1.getY(), pos.x, pos.y, sold1.getVelocidade(), sold2.getNome());
-		while(nmoveu){
-			pos = rpg.selecionaPosicao();
-			nmoveu = testaPosicao(sold2.getX(), sold2.getY(), pos.x, pos.y, sold1.getVelocidade(), sold2.getNome());
+		while(true)
+		{
+			
 		}
-		sold2.setX(pos.x);
-		sold2.setY(pos.y);
+		
 
-		rpg.atualizaTabuleiro();
 
-		rpg.info(String.format("Personagem %s, selecione um inimigo para atacar!", sold2.getNome()));
-		p = rpg.selecionaPersonagem();
-		if (p != sold2)
-			p.setVida(p.getVida() - 1);
-		else
-			rpg.erro("Você não pode atacar você mesmo! Perdeu a vez.");
-
-		rpg.atualizaTabuleiro();
 	}
 }
