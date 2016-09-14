@@ -3,6 +3,8 @@ package br.ufms.facom.lpoo.rpg.controle;
 import br.ufms.facom.lpoo.rpg.arma.*;
 import br.ufms.facom.lpoo.rpg.personagem.*;
 import br.ufms.facom.lpoo.rpg.ui.RolePlayingGame;
+import javafx.application.Platform;
+import java.util.Random;
 
 /**
  * Controle do jogo: personagens e suas interações.
@@ -30,20 +32,23 @@ public class Controle {
 	private Pistola pistola = new Pistola();
 	private Rifle rifle = new Rifle();
 	private Sniper sniper = new Sniper();
+	private MiniGun minigun = new MiniGun();
 	
-	private SoldadoAliado soldA1 = new SoldadoAliado("SoldA1", pistola, 0, 0);
-	private SoldadoAliado soldA2 = new SoldadoAliado("SoldA2", pistola, 1, 0);
-	private SoldadoAliado soldA3 = new SoldadoAliado("SoldA3", pistola, 2, 0);
-	private MedicoAliado medicoA1 = new MedicoAliado("MedicoA1", desfibrilador1, 3, 0);
+	private SoldadoAliado soldA1 = new SoldadoAliado("SoldA1", rifle, 2, 1);
+	private SoldadoAliado soldA2 = new SoldadoAliado("SoldA2", rifle, 3, 1);
+	private SoldadoAliado soldA3 = new SoldadoAliado("SoldA3", rifle, 4, 1);
+	private MedicoAliado medicoA1 = new MedicoAliado("MedicoA1", desfibrilador1, 2, 0);
 	private SniperAliado sniperA1 = new SniperAliado("SniperA1", sniper, 4, 0);
+	private Comandante comandanteA1 = new Comandante("Comandante", minigun, 3, 0);
 	
-	private SoldadoInimigo soldI1 = new SoldadoInimigo("SoldI1", pistola, 6, 6);
-	private SoldadoInimigo soldI2 = new SoldadoInimigo("SoldI2", pistola, 5, 5);
-	private SoldadoInimigo soldI3 = new SoldadoInimigo("SoldI3", pistola, 4, 4);
-	private MedicoInimigo medicoI1 = new MedicoInimigo("MedicoI1", desfibrilador2, RolePlayingGame.MAX_X - 4, RolePlayingGame.MAX_Y - 0);
-	private SniperInimigo sniperI1 = new SniperInimigo("SniperI1", sniper, RolePlayingGame.MAX_X - 5, RolePlayingGame.MAX_Y - 0);
-	private MorteiroInimigo morteiroI1 = new MorteiroInimigo("MorteiroI1", morteiro,RolePlayingGame.MAX_X - 5, RolePlayingGame.MAX_Y - 0);
-	private MorteiroInimigo morteiroI2 = new MorteiroInimigo("MorteiroI2", morteiro,RolePlayingGame.MAX_X - 6, RolePlayingGame.MAX_Y - 0);
+	
+	private SoldadoInimigo soldI1 = new SoldadoInimigo("SoldI1", pistola, 3, 4);
+	private SoldadoInimigo soldI2 = new SoldadoInimigo("SoldI2", pistola, 1, 6);
+	private SoldadoInimigo soldI3 = new SoldadoInimigo("SoldI3", pistola, 5, 7);
+	private MedicoInimigo medicoI1 = new MedicoInimigo("MedicoI1", desfibrilador2, 2, 6);
+	private SniperInimigo sniperI1 = new SniperInimigo("SniperI1", sniper, 3, 6);
+	private MorteiroInimigo morteiroI1 = new MorteiroInimigo("MorteiroI1", morteiro, 2, 7);
+	private MorteiroInimigo morteiroI2 = new MorteiroInimigo("MorteiroI2", morteiro, 5, 7);
 
 	private Personagem[] personagensAliados = new Personagem[6];
 	private Personagem[] personagensInimigos = new Personagem[5];
@@ -91,6 +96,11 @@ public class Controle {
 	 * @param personagem
 	 * @return true se pode se mover, else se não
 	 */
+	
+	public int distancia(Personagem p1, Personagem p2)
+	{
+		return Math.abs(p1.getX() - p2.getX()) + Math.abs(p1.getY() - p2.getY());
+	}
 	public boolean testaPosicao(int x1, int y1, int x2, int y2, int distancia, String personagem){
 		if((Math.abs(x1 - x2) + Math.abs(y1 - y2)) > distancia)
 		{
@@ -100,68 +110,158 @@ public class Controle {
 		return false;	
 	}
 	
-	
-	
-	public void executaTurno() throws InterruptedException {
-		boolean nmoveu;
+	public void addPersonagensFase(int aliados, int inimigos)
+	{
+		for(int i=0; i<aliados; i++)
+		{
+			rpg.addPersonagem(personagensAliados[i]);
+		}
+		for(int i=0; i<inimigos; i++)
+		{
+			rpg.addPersonagem(personagensInimigos[i]);
+		}
 		
-		// Fase 1
+		rpg.atualizaTabuleiro();
+		rpg.atualizaTabuleiro();
+	}
+	
+	public void removePersonagensFase(int aliados, int inimigos)
+	{
+		for(int i=0; i<aliados; i++)
+		{
+			rpg.removePersonagem(personagensAliados[i]);
+		}
+		for(int i=0; i<inimigos; i++)
+		{
+			rpg.removePersonagem(personagensInimigos[i]);
+		}
+		
+		rpg.atualizaTabuleiro();
+		rpg.atualizaTabuleiro();
+	}
+	
+	public boolean todoMundoMorreu(int aliados, int inimigos)
+	{
+		boolean morreuAliados = true;
+		boolean morreuInimigos = true;
+		for(int i=0; i<aliados; i++)
+		{
+			if(personagensAliados[i].getVida() > 0)
+				morreuAliados = false;
+		}
+		
+		if (morreuAliados) {
+		    rpg.erro("Aliados todos Mortos, Game Over");
+		    Platform.exit();
+		 }
+		
+		
+		for(int i=0; i<inimigos; i++)
+		{
+			if(personagensInimigos[i].getVida() > 0)
+				morreuInimigos = false;
+		}
+		return morreuInimigos;
+	}
+	
+	public boolean acertoAtk(Personagem atacante, Personagem defensor)
+	{
+		Random gerador = new Random();
+		int acerto;
+		
+		acerto = 5 + atacante.getAtaque() - defensor.getDefesa();
+		if(acerto >= (gerador.nextInt()%10))
+			return true;
+		return false;
+	}
+	
+	public void turno(int nAliados, int nInimigos) throws InterruptedException
+	{
+		boolean nmoveu;
+		boolean nAtkAliados;;
 		Posicao pos;
 		Personagem p;
-		
-		rpg.addPersonagem(soldA1);
-		rpg.addPersonagem(soldA2);
-		rpg.addPersonagem(soldA3);
-		rpg.addPersonagem(medicoA1);
-		rpg.addPersonagem(sniperA1);
-		
-		personagensAliados[0] = soldA1;
-		personagensAliados[1] = soldA2;
-		personagensAliados[2] = soldA3;
-		personagensAliados[3] = medicoA1;
-		personagensAliados[4] = sniperA1;
-		
-				
-		rpg.addPersonagem(soldI1);
-		rpg.addPersonagem(soldI2);
-		rpg.addPersonagem(soldI3);
-		
-		personagensInimigos[0] = soldI1;
-		personagensInimigos[1] = soldI2;
-		personagensInimigos[2] = soldI3;
-		
-		rpg.atualizaTabuleiro();
-		rpg.atualizaTabuleiro();
-		for(int j=0; j<2; j++)
-		{
-			for(int i=0; i<5; i++)
+		for(int i=0; i<nAliados; i++)
 			{
-				rpg.info(String.format("Personagem %s, selecione sua nova posição!", personagensAliados[i].getNome()));
-				pos = rpg.selecionaPosicao();
-				
-				nmoveu = testaPosicao(personagensAliados[i].getX(), personagensAliados[i].getY(), pos.x, pos.y, personagensAliados[i].getVelocidade(), personagensAliados[i].getNome());
-				while(nmoveu){
+				if(personagensAliados[i].getVida()> 0)
+				{
+					rpg.info(String.format("Personagem %s, selecione sua nova posição!", personagensAliados[i].getNome()));
 					pos = rpg.selecionaPosicao();
+					
 					nmoveu = testaPosicao(personagensAliados[i].getX(), personagensAliados[i].getY(), pos.x, pos.y, personagensAliados[i].getVelocidade(), personagensAliados[i].getNome());
+					while(nmoveu){
+						pos = rpg.selecionaPosicao();
+						nmoveu = testaPosicao(personagensAliados[i].getX(), personagensAliados[i].getY(), pos.x, pos.y, personagensAliados[i].getVelocidade(), personagensAliados[i].getNome());
+					}
+					personagensAliados[i].setX(pos.x);
+					personagensAliados[i].setY(pos.y);
+					
+					rpg.atualizaTabuleiro();
+					if(personagensAliados[i] != medicoA1)
+					{
+						rpg.info(String.format("Personagem %s, selecione um inimigo para atacar!", personagensAliados[i].getNome()));
+						
+						 p = rpg.selecionaPersonagem();
+						 nAtkAliados = true;
+						 
+						for(int j=0; j<nAliados; j++)
+						{
+								if(p == personagensAliados[j] && p!= personagensAliados[i])
+								{
+									nAtkAliados = false;
+									rpg.erro("Você não pode atacar aliados! Perdeu a vez.");
+								}
+						}
+						if(nAtkAliados)
+						{
+							if (p != personagensAliados[i])
+								if(distancia(personagensAliados[i], p) <= personagensAliados[i].getArma().getAlcance())
+								{
+									if(acertoAtk(personagensAliados[i], p))
+										p.setVida(p.getVida() - personagensAliados[i].getArma().getDano());
+									else
+										rpg.info("Você errou o ataque!!");
+								}
+								else
+								{
+									rpg.erro("O alacance de sua arma não chega no alvo! Perdeu a vez.");
+								}
+							else
+								rpg.erro("Você não pode atacar você mesmo! Perdeu a vez.");
+						}
+					}
+					else
+					{
+						rpg.info(String.format("Personagem %s, selecione um aliado para curar!", personagensAliados[i].getNome()));
+					
+						p = rpg.selecionaPersonagem();
+						nAtkAliados = true;
+						
+						for(int j=0; j<nInimigos; j++)
+						{
+							if(p == personagensInimigos[j])
+							{
+								nAtkAliados = false;
+								rpg.erro("Você não pode curar inimigos! Perdeu a vez.");
+							}
+						}
+						if(nAtkAliados)
+						{
+							if(distancia(personagensAliados[i], p) <= personagensAliados[i].getArma().getAlcance())
+							{
+								p.setVida(p.getVida() - personagensAliados[i].getArma().getDano());
+							}
+						}
+						rpg.atualizaTabuleiro();
+					}
+					rpg.atualizaTabuleiro();
 				}
-				personagensAliados[i].setX(pos.x);
-				personagensAliados[i].setY(pos.y);
-				
-				rpg.atualizaTabuleiro();
-				
-				rpg.info(String.format("Personagem %s, selecione um inimigo para atacar!", personagensAliados[i].getNome()));
-				
-				 p = rpg.selecionaPersonagem();
-				 
-				if (p != personagensAliados[i])
-					p.setVida(p.getVida() - 1);
-				else
-					rpg.erro("Você não pode atacar você mesmo! Perdeu a vez.");
-	
-				rpg.atualizaTabuleiro();
-			}
+		}
 			
-			for(int i=0; i<3; i++)
+			
+		for(int i=0; i<nInimigos; i++)
+		{
+			if(personagensInimigos[i].getVida()>0)
 			{
 				rpg.info(String.format("Personagem %s, selecione sua nova posição!", personagensInimigos[i].getNome()));
 				pos = rpg.selecionaPosicao();
@@ -176,36 +276,270 @@ public class Controle {
 				
 				rpg.atualizaTabuleiro();
 				
-				rpg.info(String.format("Personagem %s, selecione um inimigo para atacar!", personagensInimigos[i].getNome()));
-				
-				 p = rpg.selecionaPersonagem();
-				 
-				if (p != personagensInimigos[i])
-					p.setVida(p.getVida() - 1);
+				if(personagensAliados[i] != medicoI1)
+				{
+					rpg.info(String.format("Personagem %s, selecione um inimigo para atacar!", personagensInimigos[i].getNome()));
+					
+					 p = rpg.selecionaPersonagem();
+					 
+					 nAtkAliados = true;
+					 
+					for(int j=0; j<nInimigos; j++)
+					{
+							if(p == personagensInimigos[j] && p!= personagensInimigos[i])
+							{
+								nAtkAliados = false;
+								rpg.erro("Você não pode atacar aliados! Perdeu a vez.");
+							}
+					}
+					if(nAtkAliados)
+					{
+						if (p != personagensInimigos[i])
+							if(distancia(personagensInimigos[i], p) <= personagensInimigos[i].getArma().getAlcance())
+							{
+								if(acertoAtk(personagensInimigos[i], p))
+									p.setVida(p.getVida() - personagensInimigos[i].getArma().getDano());
+								else
+									rpg.info("Você errou o ataque!!");
+							}
+							else
+							{
+								rpg.erro("O alacance de sua arma não chega no alvo! Perdeu a vez.");
+							}
+						else
+							rpg.erro("Você não pode atacar você mesmo! Perdeu a vez.");
+					}
+					rpg.atualizaTabuleiro();
+				}	
 				else
-					rpg.erro("Você não pode atacar você mesmo! Perdeu a vez.");
-	
-				rpg.atualizaTabuleiro();
+				{
+					rpg.info(String.format("Personagem %s, selecione um aliado para curar!", personagensAliados[i].getNome()));
+				
+					p = rpg.selecionaPersonagem();
+					nAtkAliados = true;
+					
+					for(int j=0; j<nAliados; j++)
+					{
+						if(p == personagensAliados[j])
+						{
+							nAtkAliados = false;
+							rpg.erro("Você não pode curar inimigos! Perdeu a vez.");
+						}
+					}
+					if(nAtkAliados)
+					{
+						if(distancia(personagensInimigos[i], p) <= personagensInimigos[i].getArma().getAlcance())
+						{
+							p.setVida(p.getVida() - personagensInimigos[i].getArma().getDano());
+						}
+						else
+						{
+							rpg.erro("O alacance de sua arma não chega no alvo! Perdeu a vez.");
+						}
+					}
+					rpg.atualizaTabuleiro();
+				}
 			}
 		}
+	}
+	
+	public void restauraPosicaoAliados()
+	{
+		personagensAliados[0].setX(2);
+		personagensAliados[0].setY(1);
 		
-		rpg.removePersonagem(soldA1);
-		rpg.removePersonagem(soldA2);
-		rpg.removePersonagem(soldA3);
-		rpg.removePersonagem(medicoA1);
-		rpg.removePersonagem(sniperA1);
+		personagensAliados[1].setX(3);
+		personagensAliados[1].setY(1);
 		
-		rpg.removePersonagem(soldI1);
-		rpg.removePersonagem(soldI2);
-		rpg.removePersonagem(soldI3);
+		personagensAliados[2].setX(4);
+		personagensAliados[2].setY(1);
 		
-		rpg.atualizaTabuleiro();
-		while(true)
+		personagensAliados[3].setX(2);
+		personagensAliados[3].setY(0);
+		
+		personagensAliados[4].setX(4);
+		personagensAliados[4].setY(0);
+	}
+	
+	public void restauraVida(int aliados, int inimigos)
+	{
+		for(int i=0; i<aliados; i++)
 		{
-			
+			personagensAliados[i].setVida(5);
 		}
 		
+		for(int i=0; i<inimigos; i++)
+		{
+			personagensInimigos[i].setVida(5);
+		}
+	}
+	
+	public void executaTurno() throws InterruptedException {
+		
+		
+		// Fase 1
+	
+		personagensAliados[0] = soldA1;
+		personagensAliados[1] = soldA2;
+		personagensAliados[2] = soldA3;
+		personagensAliados[3] = medicoA1;
+		personagensAliados[4] = sniperA1;
+				
+		personagensInimigos[0] = soldI1;
+		personagensInimigos[1] = soldI2;
+		personagensInimigos[2] = soldI3;
+		
+		this.addPersonagensFase(5, 3);
+		
 
+		while(!this.todoMundoMorreu(5, 3))
+		{
+			turno(5, 3);
+		}
+		
+		
+		restauraVida(5,3);
+		restauraPosicaoAliados();
+		rpg.atualizaTabuleiro();
+		removePersonagensFase(5, 3);
+		rpg.atualizaTabuleiro();
+
+		// FASE 2
+				
+		personagensInimigos[0] = soldI1;
+		personagensInimigos[1] = soldI2;
+		personagensInimigos[2] = sniperI1;
+		
+		personagensInimigos[0].setX(2);
+		personagensInimigos[0].setX(4);
+		
+		personagensInimigos[1].setX(4);
+		personagensInimigos[1].setX(5);
+		
+		personagensInimigos[2].setX(3);
+		personagensInimigos[2].setX(6);
+		
+		this.addPersonagensFase(5, 3);
+		
+		while(!this.todoMundoMorreu(5, 3))
+		{
+			turno(5, 3);
+		}
+		
+		restauraVida(5,3);
+		restauraPosicaoAliados();
+		removePersonagensFase(5, 3);
+		rpg.atualizaTabuleiro();
+		
+		
+		
+
+		// FASE 3
+				
+		personagensInimigos[0] = soldI1;
+		personagensInimigos[1] = soldI2;
+		personagensInimigos[2] = sniperI1;
+		personagensInimigos[3] = medicoI1;
+		
+		personagensInimigos[0].setX(2);
+		personagensInimigos[0].setX(4);
+		
+		personagensInimigos[1].setX(4);
+		personagensInimigos[1].setX(5);
+		
+		personagensInimigos[2].setX(3);
+		personagensInimigos[2].setX(6);
+		
+		personagensInimigos[3].setX(2);
+		personagensInimigos[3].setX(6);
+		
+		this.addPersonagensFase(5, 4);
+		
+		while(!this.todoMundoMorreu(5, 4))
+		{
+			turno(5, 4);
+		}
+		
+		restauraVida(5,4);
+		restauraPosicaoAliados();
+		removePersonagensFase(5, 4);
+		rpg.atualizaTabuleiro();
+		
+
+		
+		// FASE 4
+		
+		personagensInimigos[0] = soldI1;
+		personagensInimigos[1] = soldI2;
+		personagensInimigos[2] = soldI3;
+		personagensInimigos[3] = sniperI1;
+		personagensInimigos[4] = medicoI1;
+		
+		personagensInimigos[0].setX(1);
+		personagensInimigos[0].setX(4);
+		
+		personagensInimigos[1].setX(2);
+		personagensInimigos[1].setX(4);
+		
+		personagensInimigos[2].setX(4);
+		personagensInimigos[2].setX(5);
+		
+		personagensInimigos[3].setX(3);
+		personagensInimigos[3].setX(6);
+		
+		personagensInimigos[4].setX(2);
+		personagensInimigos[4].setX(6);
+		
+		this.addPersonagensFase(5, 5);
+		
+		while(!this.todoMundoMorreu(5, 5))
+		{
+			turno(5, 5);
+		}
+		
+		restauraVida(5,5);
+		restauraPosicaoAliados();
+		removePersonagensFase(5, 5);
+		rpg.atualizaTabuleiro();
+		
+		
+		// FASE 5
+		personagensAliados[5] = comandanteA1;
+		
+		personagensInimigos[0] = soldI1;
+		personagensInimigos[1] = soldI2;
+		personagensInimigos[2] = morteiroI1;
+		personagensInimigos[3] = morteiroI2;
+		personagensInimigos[4] = sniperI1;
+		
+		personagensInimigos[0].setX(3);
+		personagensInimigos[0].setX(4);
+		
+		personagensInimigos[1].setX(4);
+		personagensInimigos[1].setX(4);
+		
+		personagensInimigos[2].setX(2);
+		personagensInimigos[2].setX(7);
+		
+		personagensInimigos[3].setX(5);
+		personagensInimigos[3].setX(7);
+		
+		personagensInimigos[4].setX(3);
+		personagensInimigos[4].setX(7);
+		
+		this.addPersonagensFase(6, 5);
+		
+		while(!this.todoMundoMorreu(6, 5))
+		{
+			turno(6, 5);
+		}
+		
+		restauraVida(6,5);
+		restauraPosicaoAliados();
+		removePersonagensFase(6, 5);
+		rpg.atualizaTabuleiro();
+
+		while(true);
 
 	}
 }
