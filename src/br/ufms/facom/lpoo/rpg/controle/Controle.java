@@ -44,7 +44,7 @@ public class Controle {
 	
 	private SoldadoInimigo soldI1 = new SoldadoInimigo("SoldI1", pistola, 3, 4);
 	private SoldadoInimigo soldI2 = new SoldadoInimigo("SoldI2", pistola, 1, 6);
-	private SoldadoInimigo soldI3 = new SoldadoInimigo("SoldI3", pistola, 5, 7);
+	private SoldadoInimigo soldI3 = new SoldadoInimigo("SoldI3", rifle, 5, 7);
 	private MedicoInimigo medicoI1 = new MedicoInimigo("MedicoI1", desfibrilador2, 2, 6);
 	private SniperInimigo sniperI1 = new SniperInimigo("SniperI1", sniper, 3, 6);
 	private MorteiroInimigo morteiroI1 = new MorteiroInimigo("MorteiroI1", morteiro, 2, 7);
