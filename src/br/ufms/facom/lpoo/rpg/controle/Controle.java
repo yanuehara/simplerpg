@@ -471,6 +471,9 @@ public class Controle {
 		removePersonagensFase(5, 3);
 		rpg.atualizaTabuleiro();
 
+		rpg.info("***********************************************");
+		rpg.info("	FASE 1 COMPLETA");
+		rpg.info("***********************************************");
 		// FASE 2
 				
 		personagensInimigos[0] = soldI1;
@@ -498,7 +501,9 @@ public class Controle {
 		removePersonagensFase(5, 3);
 		rpg.atualizaTabuleiro();
 		
-		
+		rpg.info("***********************************************");
+		rpg.info("	FASE 2 COMPLETA");
+		rpg.info("***********************************************");
 		
 
 		// FASE 3
@@ -532,7 +537,9 @@ public class Controle {
 		removePersonagensFase(5, 4);
 		rpg.atualizaTabuleiro();
 		
-
+		rpg.info("***********************************************");
+		rpg.info("	FASE 3 COMPLETA");
+		rpg.info("***********************************************");
 		
 		// FASE 4
 		
@@ -569,6 +576,9 @@ public class Controle {
 		removePersonagensFase(5, 5);
 		rpg.atualizaTabuleiro();
 		
+		rpg.info("***********************************************");
+		rpg.info("	FASE 4 COMPLETA");
+		rpg.info("***********************************************");
 		
 		// FASE 5
 		personagensAliados[5] = comandanteA1;
