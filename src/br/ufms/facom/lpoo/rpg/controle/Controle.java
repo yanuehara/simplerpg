@@ -229,7 +229,7 @@ public class Controle {
 					if(Math.abs(personagensInimigos[i].getX() - x) <= distanciaPercorrida)
 					{
 						distanciaPercorrida -= Math.abs(personagensInimigos[i].getX() - x);
-						personagensInimigos[i].setX(x+1);
+						personagensInimigos[i].setX(x);
 						if(distanciaPercorrida > 0)
 						{
 							if(Math.abs(personagensInimigos[i].getY() - y) <= distanciaPercorrida)
@@ -245,7 +245,7 @@ public class Controle {
 					}
 					else
 					{
-						personagensInimigos[i].setX(personagensInimigos[i].getX() - distanciaPercorrida+1);
+						personagensInimigos[i].setX(personagensInimigos[i].getX() - distanciaPercorrida);
 						distanciaPercorrida = 0;
 					}
 					
@@ -277,7 +277,7 @@ public class Controle {
 					if(Math.abs(personagensInimigos[i].getX() - x) <= distanciaPercorrida)
 					{
 						distanciaPercorrida -= Math.abs(personagensInimigos[i].getX() - x);
-						personagensInimigos[i].setX(x+1);
+						personagensInimigos[i].setX(x);
 						if(distanciaPercorrida > 0)
 						{
 							if(Math.abs(personagensInimigos[i].getY() - y) <= distanciaPercorrida)
@@ -293,7 +293,7 @@ public class Controle {
 					}
 					else
 					{
-						personagensInimigos[i].setX(personagensInimigos[i].getX() - distanciaPercorrida+1);
+						personagensInimigos[i].setX(personagensInimigos[i].getX() - distanciaPercorrida);
 						distanciaPercorrida = 0;
 					}
 					
