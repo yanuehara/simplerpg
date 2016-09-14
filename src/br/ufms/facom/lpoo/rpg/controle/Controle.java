@@ -411,13 +411,13 @@ public class Controle {
 		personagensInimigos[2] = sniperI1;
 		
 		personagensInimigos[0].setX(2);
-		personagensInimigos[0].setX(4);
+		personagensInimigos[0].setY(4);
 		
 		personagensInimigos[1].setX(4);
-		personagensInimigos[1].setX(5);
+		personagensInimigos[1].setY(5);
 		
 		personagensInimigos[2].setX(3);
-		personagensInimigos[2].setX(6);
+		personagensInimigos[2].setY(6);
 		
 		this.addPersonagensFase(5, 3);
 		
@@ -442,16 +442,16 @@ public class Controle {
 		personagensInimigos[3] = medicoI1;
 		
 		personagensInimigos[0].setX(2);
-		personagensInimigos[0].setX(4);
+		personagensInimigos[0].setY(4);
 		
 		personagensInimigos[1].setX(4);
-		personagensInimigos[1].setX(5);
+		personagensInimigos[1].setY(5);
 		
 		personagensInimigos[2].setX(3);
-		personagensInimigos[2].setX(6);
+		personagensInimigos[2].setY(6);
 		
 		personagensInimigos[3].setX(2);
-		personagensInimigos[3].setX(6);
+		personagensInimigos[3].setY(6);
 		
 		this.addPersonagensFase(5, 4);
 		
@@ -476,19 +476,19 @@ public class Controle {
 		personagensInimigos[4] = medicoI1;
 		
 		personagensInimigos[0].setX(1);
-		personagensInimigos[0].setX(4);
+		personagensInimigos[0].setY(4);
 		
 		personagensInimigos[1].setX(2);
-		personagensInimigos[1].setX(4);
+		personagensInimigos[1].setY(4);
 		
 		personagensInimigos[2].setX(4);
-		personagensInimigos[2].setX(5);
+		personagensInimigos[2].setY(5);
 		
 		personagensInimigos[3].setX(3);
-		personagensInimigos[3].setX(6);
+		personagensInimigos[3].setY(6);
 		
 		personagensInimigos[4].setX(2);
-		personagensInimigos[4].setX(6);
+		personagensInimigos[4].setY(6);
 		
 		this.addPersonagensFase(5, 5);
 		
@@ -513,19 +513,19 @@ public class Controle {
 		personagensInimigos[4] = sniperI1;
 		
 		personagensInimigos[0].setX(3);
-		personagensInimigos[0].setX(4);
+		personagensInimigos[0].setY(4);
 		
 		personagensInimigos[1].setX(4);
-		personagensInimigos[1].setX(4);
+		personagensInimigos[1].setY(4);
 		
 		personagensInimigos[2].setX(2);
-		personagensInimigos[2].setX(7);
+		personagensInimigos[2].setY(7);
 		
 		personagensInimigos[3].setX(5);
-		personagensInimigos[3].setX(7);
+		personagensInimigos[3].setY(7);
 		
 		personagensInimigos[4].setX(3);
-		personagensInimigos[4].setX(7);
+		personagensInimigos[4].setY(7);
 		
 		this.addPersonagensFase(6, 5);
 		
