@@ -126,6 +126,15 @@ public abstract class Medico implements Personagem {
 
 	@Override
 	public void setVida(int vida) {
-		this.vida = vida;
+		if(vida < 0)
+		{
+			this.vida = 0;
+		}
+		else if(vida > 5)
+		{
+			vida = 5;
+		}
+		else
+			this.vida = vida;
 	}
 }
