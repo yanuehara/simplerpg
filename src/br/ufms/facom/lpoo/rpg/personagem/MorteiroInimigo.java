@@ -68,6 +68,10 @@ public class MorteiroInimigo implements Personagem{
 	 */
 	public MorteiroInimigo(String nome, Morteiro morteiro, int x, int y) {
 		this.nome = nome;
+		vida = 5;
+		ataque = 4;
+		defesa = 2;
+		velocidade = 0;
 		posicao = new Posicao(x, y);
 		this.arma = morteiro;
 	}

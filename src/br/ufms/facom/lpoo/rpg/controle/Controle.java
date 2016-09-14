@@ -205,23 +205,23 @@ public class Controle {
 					if(Math.abs(personagensInimigos[i].getX() - x) <= distanciaPercorrida)
 					{
 						distanciaPercorrida -= Math.abs(personagensInimigos[i].getX() - x);
-						personagensInimigos[i].setX(x);
+						personagensInimigos[i].setX(x+1);
 						if(distanciaPercorrida > 0)
 						{
 							if(Math.abs(personagensInimigos[i].getY() - y) <= distanciaPercorrida)
 							{
-								personagensInimigos[i].setY(y);
+								personagensInimigos[i].setY(y+1);
 							}
 							else
 							{
-								personagensInimigos[i].setY(personagensInimigos[i].getY() - distanciaPercorrida);
+								personagensInimigos[i].setY(personagensInimigos[i].getY() - distanciaPercorrida+1);
 								distanciaPercorrida = 0;
 							}
 						}
 					}
 					else
 					{
-						personagensInimigos[i].setX(personagensInimigos[i].getX() - distanciaPercorrida);
+						personagensInimigos[i].setX(personagensInimigos[i].getX() - distanciaPercorrida+1);
 						distanciaPercorrida = 0;
 					}
 					
@@ -253,23 +253,23 @@ public class Controle {
 					if(Math.abs(personagensInimigos[i].getX() - x) <= distanciaPercorrida)
 					{
 						distanciaPercorrida -= Math.abs(personagensInimigos[i].getX() - x);
-						personagensInimigos[i].setX(x);
+						personagensInimigos[i].setX(x+1);
 						if(distanciaPercorrida > 0)
 						{
 							if(Math.abs(personagensInimigos[i].getY() - y) <= distanciaPercorrida)
 							{
-								personagensInimigos[i].setY(y);
+								personagensInimigos[i].setY(y+1);
 							}
 							else
 							{
-								personagensInimigos[i].setY(personagensInimigos[i].getY() - distanciaPercorrida);
+								personagensInimigos[i].setY(personagensInimigos[i].getY() - distanciaPercorrida+1);
 								distanciaPercorrida = 0;
 							}
 						}
 					}
 					else
 					{
-						personagensInimigos[i].setX(personagensInimigos[i].getX() - distanciaPercorrida);
+						personagensInimigos[i].setX(personagensInimigos[i].getX() - distanciaPercorrida+1);
 						distanciaPercorrida = 0;
 					}
 					
