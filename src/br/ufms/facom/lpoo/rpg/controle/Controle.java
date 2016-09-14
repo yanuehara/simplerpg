@@ -317,7 +317,8 @@ public class Controle {
 	public void turno(int nAliados, int nInimigos) throws InterruptedException
 	{
 		boolean nmoveu;
-		boolean nAtkAliados;;
+		boolean nAtkAliados;
+		boolean inimigosVivos;
 		Posicao pos;
 		Personagem p;
 		for(int i=0; i<nAliados; i++)
@@ -395,6 +396,12 @@ public class Controle {
 					}
 					rpg.atualizaTabuleiro();
 				}
+				inimigosVivos = false;
+				for(int j=0; j<nInimigos; j++)
+					if(personagensInimigos[j].getVida() > 0)
+						inimigosVivos = true;
+				if(!inimigosVivos)
+					return;
 		}
 		inteligenciaArtificial(nAliados, nInimigos);
 	}
