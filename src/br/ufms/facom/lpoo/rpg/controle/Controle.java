@@ -175,6 +175,115 @@ public class Controle {
 		return false;
 	}
 	
+	public void inteligenciaArtificial(int nAliados, int nInimigos)
+	{
+		int menorDistancia = 20;
+		int distanciaPercorrida;
+		int x = 0;
+		int y = 0;
+		Personagem p = personagensAliados[0];
+		for(int i=0; i<nInimigos; i++)
+		{
+			if(personagensInimigos[i].getVida()>0)
+			{
+				if(personagensInimigos[i] != medicoI1)
+				{
+					menorDistancia = 20;
+					for(int j =0; j<nAliados; j++)
+					{
+						if(distancia(personagensInimigos[i], personagensAliados[j]) < menorDistancia)
+						{
+							menorDistancia = distancia(personagensInimigos[i], personagensAliados[j]);
+							x = personagensAliados[j].getX();
+							y = personagensAliados[j].getY();
+							p = personagensAliados[j];
+							
+						}
+					}
+					distanciaPercorrida = personagensInimigos[i].getVelocidade();
+					
+					if(Math.abs(personagensInimigos[i].getX() - x) <= distanciaPercorrida)
+					{
+						distanciaPercorrida -= Math.abs(personagensInimigos[i].getX() - x);
+						personagensInimigos[i].setX(x);
+						if(distanciaPercorrida > 0)
+						{
+							if(Math.abs(personagensInimigos[i].getY() - y) <= distanciaPercorrida)
+							{
+								personagensInimigos[i].setY(y);
+							}
+							else
+							{
+								personagensInimigos[i].setY(personagensInimigos[i].getY() - distanciaPercorrida);
+								distanciaPercorrida = 0;
+							}
+						}
+					}
+					else
+					{
+						personagensInimigos[i].setX(personagensInimigos[i].getX() - distanciaPercorrida);
+						distanciaPercorrida = 0;
+					}
+					
+					rpg.atualizaTabuleiro();
+					
+					if(distancia(personagensInimigos[i], p) <= personagensInimigos[i].getArma().getAlcance())
+					{
+						if(acertoAtk(personagensInimigos[i], p))
+							p.setVida(p.getVida() - personagensInimigos[i].getArma().getDano());
+					}
+					rpg.atualizaTabuleiro();
+				}	
+				else
+				{
+					menorDistancia = 20;
+					for(int j =0; j<nInimigos; j++)
+					{
+						if((distancia(personagensInimigos[i], personagensInimigos[j]) < menorDistancia) && personagensInimigos[j] != medicoI1)
+						{
+							menorDistancia = distancia(personagensInimigos[i], personagensInimigos[j]);
+							x = personagensInimigos[j].getX();
+							y = personagensInimigos[j].getY();
+							p = personagensInimigos[j];
+							
+						}
+					}
+					distanciaPercorrida = personagensInimigos[i].getVelocidade();
+					
+					if(Math.abs(personagensInimigos[i].getX() - x) <= distanciaPercorrida)
+					{
+						distanciaPercorrida -= Math.abs(personagensInimigos[i].getX() - x);
+						personagensInimigos[i].setX(x);
+						if(distanciaPercorrida > 0)
+						{
+							if(Math.abs(personagensInimigos[i].getY() - y) <= distanciaPercorrida)
+							{
+								personagensInimigos[i].setY(y);
+							}
+							else
+							{
+								personagensInimigos[i].setY(personagensInimigos[i].getY() - distanciaPercorrida);
+								distanciaPercorrida = 0;
+							}
+						}
+					}
+					else
+					{
+						personagensInimigos[i].setX(personagensInimigos[i].getX() - distanciaPercorrida);
+						distanciaPercorrida = 0;
+					}
+					
+					rpg.atualizaTabuleiro();
+					
+					if(distancia(personagensInimigos[i], p) <= personagensInimigos[i].getArma().getAlcance())
+					{
+						p.setVida(p.getVida() - personagensInimigos[i].getArma().getDano());
+					}
+				}
+			}
+		}
+	}
+	
 	public void turno(int nAliados, int nInimigos) throws InterruptedException
 	{
 		boolean nmoveu;
@@ -257,90 +366,7 @@ public class Controle {
 					rpg.atualizaTabuleiro();
 				}
 		}
-			
-			
-		for(int i=0; i<nInimigos; i++)
-		{
-			if(personagensInimigos[i].getVida()>0)
-			{
-				rpg.info(String.format("Personagem %s, selecione sua nova posição!", personagensInimigos[i].getNome()));
-				pos = rpg.selecionaPosicao();
-				
-				nmoveu = testaPosicao(personagensInimigos[i].getX(), personagensInimigos[i].getY(), pos.x, pos.y, personagensInimigos[i].getVelocidade(), personagensInimigos[i].getNome());
-				while(nmoveu){
-					pos = rpg.selecionaPosicao();
-					nmoveu = testaPosicao(personagensInimigos[i].getX(), personagensInimigos[i].getY(), pos.x, pos.y, personagensInimigos[i].getVelocidade(), personagensInimigos[i].getNome());
-				}
-				personagensInimigos[i].setX(pos.x);
-				personagensInimigos[i].setY(pos.y);
-				
-				rpg.atualizaTabuleiro();
-				
-				if(personagensAliados[i] != medicoI1)
-				{
-					rpg.info(String.format("Personagem %s, selecione um inimigo para atacar!", personagensInimigos[i].getNome()));
-					
-					 p = rpg.selecionaPersonagem();
-					 
-					 nAtkAliados = true;
-					 
-					for(int j=0; j<nInimigos; j++)
-					{
-							if(p == personagensInimigos[j] && p!= personagensInimigos[i])
-							{
-								nAtkAliados = false;
-								rpg.erro("Você não pode atacar aliados! Perdeu a vez.");
-							}
-					}
-					if(nAtkAliados)
-					{
-						if (p != personagensInimigos[i])
-							if(distancia(personagensInimigos[i], p) <= personagensInimigos[i].getArma().getAlcance())
-							{
-								if(acertoAtk(personagensInimigos[i], p))
-									p.setVida(p.getVida() - personagensInimigos[i].getArma().getDano());
-								else
-									rpg.info("Você errou o ataque!!");
-							}
-							else
-							{
-								rpg.erro("O alacance de sua arma não chega no alvo! Perdeu a vez.");
-							}
-						else
-							rpg.erro("Você não pode atacar você mesmo! Perdeu a vez.");
-					}
-					rpg.atualizaTabuleiro();
-				}	
-				else
-				{
-					rpg.info(String.format("Personagem %s, selecione um aliado para curar!", personagensAliados[i].getNome()));
-				
-					p = rpg.selecionaPersonagem();
-					nAtkAliados = true;
-					
-					for(int j=0; j<nAliados; j++)
-					{
-						if(p == personagensAliados[j])
-						{
-							nAtkAliados = false;
-							rpg.erro("Você não pode curar inimigos! Perdeu a vez.");
-						}
-					}
-					if(nAtkAliados)
-					{
-						if(distancia(personagensInimigos[i], p) <= personagensInimigos[i].getArma().getAlcance())
-						{
-							p.setVida(p.getVida() - personagensInimigos[i].getArma().getDano());
-						}
-						else
-						{
-							rpg.erro("O alacance de sua arma não chega no alvo! Perdeu a vez.");
-						}
-					}
-					rpg.atualizaTabuleiro();
-				}
-			}
-		}
+		inteligenciaArtificial(nAliados, nInimigos);
 	}
 	
 	public void restauraPosicaoAliados()
