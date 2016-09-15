@@ -39,7 +39,7 @@ public class Controle {
 	private SoldadoAliado soldA3 = new SoldadoAliado("SoldA3", rifle, 4, 1);
 	private MedicoAliado medicoA1 = new MedicoAliado("MedicoA1", desfibrilador1, 2, 0);
 	private SniperAliado sniperA1 = new SniperAliado("SniperA1", sniper, 4, 0);
-	private Comandante comandanteA1 = new Comandante("Comandante", minigun, 3, 0);
+	private Comandante comandanteA1 = new Comandante("Comandante Eraldo", minigun, 3, 0);
 	
 	
 	private SoldadoInimigo soldI1 = new SoldadoInimigo("SoldI1", pistola, 3, 4);
@@ -393,6 +393,10 @@ public class Controle {
 							if(distancia(personagensAliados[i], p) <= personagensAliados[i].getArma().getAlcance())
 							{
 								p.setVida(p.getVida() - personagensAliados[i].getArma().getDano());
+							}
+							else
+							{
+								rpg.erro("O alacance de sua arma não chega no alvo! Perdeu a vez.");
 							}
 						}
 						rpg.atualizaTabuleiro();
