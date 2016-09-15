@@ -596,7 +596,7 @@ public class Controle {
 		rpg.info("***********************************************");
 		rpg.info("	FASE 4 COMPLETA");
 		rpg.info("***********************************************");
-		
+		rpg.info("O Comandante Eraldo, entrou no time dos Aliados para ajudar na ultima Missão");
 		// FASE 5
 		this.faseAtual=5;
 		
