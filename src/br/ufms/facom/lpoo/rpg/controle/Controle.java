@@ -35,7 +35,7 @@ public class Controle {
 	private MiniGun minigun = new MiniGun();
 	
 	private SoldadoAliado soldA1 = new SoldadoAliado("SoldA1", rifle, 2, 1);
-	private SoldadoAliado soldA2 = new SoldadoAliado("SoldA2", rifle, 3, 1);
+	private SoldadoAliado soldA2 = new SoldadoAliado("SoldA2", pistola, 3, 1);
 	private SoldadoAliado soldA3 = new SoldadoAliado("SoldA3", rifle, 4, 1);
 	private MedicoAliado medicoA1 = new MedicoAliado("MedicoA1", desfibrilador1, 2, 0);
 	private SniperAliado sniperA1 = new SniperAliado("SniperA1", sniper, 4, 0);
@@ -44,7 +44,7 @@ public class Controle {
 	
 	private SoldadoInimigo soldI1 = new SoldadoInimigo("SoldI1", pistola, 3, 4);
 	private SoldadoInimigo soldI2 = new SoldadoInimigo("SoldI2", pistola, 1, 6);
-	private SoldadoInimigo soldI3 = new SoldadoInimigo("SoldI3", pistola, 5, 7);
+	private SoldadoInimigo soldI3 = new SoldadoInimigo("SoldI3", rifle, 5, 7);
 	private MedicoInimigo medicoI1 = new MedicoInimigo("MedicoI1", desfibrilador2, 2, 6);
 	private SniperInimigo sniperI1 = new SniperInimigo("SniperI1", sniper, 3, 6);
 	private MorteiroInimigo morteiroI1 = new MorteiroInimigo("MorteiroI1", morteiro, 2, 7);
@@ -68,42 +68,38 @@ public class Controle {
 	}
 
 	/**
-	 * Executa um turno do jogo. Este método é invocado pelo interface gráfica
-	 * continuamente, enquanto a aplicação estiver rodando.
-	 * <p>
-	 * A implementação apresentada é apenas um exemplo que não condiz com os
-	 * requisitos do trabalho. O turno implementado é muito simples. Cada
-	 * jogador pode mover-se (sem restrições) e atacar o outro jogador. Nenhuma
-	 * restrição é verificada com relação à velocidade do personagem, alcance
-	 * das armas, pontos de vida, teste de habilidade, etc.
-	 * 
-	 * @throws InterruptedException
-	 *             Exceção lançada quando a aplicação é encerrada pelo usuário.
-	 *             O controle do jogo é executado em uma thread separada da
-	 *             thread principal da aplicação. Esta exceção é lançada para
-	 *             permitir o encerramento da thread de controle quando ela está
-	 *             esperando uma resposta da interface com relação a uma ação do
-	 *             usuário (selecionar personagem ou posição). O tratamento
-	 *             desta exceção é realizado pela classe da aplicação
-	 *             (<code>RolePlayingGame</code>). Esta exceção não deve ser
-	 *             capturada aqui.
+	 * Verifica se o personagem esta vivo
+	 * @param p
+	 * @return
 	 */
-	
+	public boolean aindaVivo(Personagem p)
+	{
+		if(p.getVida() > 0)
+			return true;
+		return false;
+	}
+
 	/**
-	 * 
+	 * Dado dois personagens Rertorna a Distancia Entre eles
+	 * @param p1
+	 * @param p2
+	 * @return
+	 */
+	public int distancia(Personagem p1, Personagem p2)
+	{
+		return Math.abs(p1.getX() - p2.getX()) + Math.abs(p1.getY() - p2.getY());
+	}
+	/**
+	 * Dado um posição e o alvo, testar se consegue chegar nesse posição
+	 * se Sim, true, se não, false.
 	 * @param x1
 	 * @param y1
 	 * @param x2
 	 * @param y2
 	 * @param distancia
 	 * @param personagem
-	 * @return true se pode se mover, else se não
+	 * @return
 	 */
-	
-	public int distancia(Personagem p1, Personagem p2)
-	{
-		return Math.abs(p1.getX() - p2.getX()) + Math.abs(p1.getY() - p2.getY());
-	}
 	public boolean testaPosicao(int x1, int y1, int x2, int y2, int distancia, String personagem){
 		if((Math.abs(x1 - x2) + Math.abs(y1 - y2)) > distancia)
 		{
@@ -113,6 +109,11 @@ public class Controle {
 		return false;	
 	}
 	
+	/**
+	 * Adiciona os Personagens na Fase
+	 * @param aliados
+	 * @param inimigos
+	 */
 	public void addPersonagensFase(int aliados, int inimigos)
 	{
 		for(int i=0; i<aliados; i++)
@@ -127,7 +128,11 @@ public class Controle {
 		rpg.atualizaTabuleiro();
 		rpg.atualizaTabuleiro();
 	}
-	
+	/**
+	 * Remove os Personagens da Fase
+	 * @param aliados
+	 * @param inimigos
+	 */
 	public void removePersonagensFase(int aliados, int inimigos)
 	{
 		for(int i=0; i<aliados; i++)
@@ -142,6 +147,14 @@ public class Controle {
 		rpg.atualizaTabuleiro();
 		rpg.atualizaTabuleiro();
 	}
+	
+	/**
+	 * Boolean que retorna se todos os Inimigos morreram
+	 * Caso todos os aliados morram, o jogo fecha.
+	 * @param aliados
+	 * @param inimigos
+	 * @return
+	 */
 	
 	public boolean todoMundoMorreu(int aliados, int inimigos)
 	{
@@ -167,6 +180,12 @@ public class Controle {
 		return morreuInimigos;
 	}
 	
+	/**
+	 * Calculo de acerto do atk.
+	 * @param atacante
+	 * @param defensor
+	 * @return
+	 */
 	public boolean acertoAtk(Personagem atacante, Personagem defensor)
 	{
 		Random gerador = new Random();
@@ -178,6 +197,11 @@ public class Controle {
 		return false;
 	}
 	
+	/**
+	 * IA do time inimigo
+	 * @param nAliados
+	 * @param nInimigos
+	 */
 	public void inteligenciaArtificial(int nAliados, int nInimigos)
 	{
 		int menorDistancia = 20;
@@ -187,7 +211,7 @@ public class Controle {
 		Personagem p = personagensAliados[0];
 		for(int i=0; i<nInimigos; i++)
 		{
-			if(personagensInimigos[i].getVida()>0)
+			if(aindaVivo(personagensInimigos[i]))
 			{
 				if(personagensInimigos[i] != medicoI1)
 				{
@@ -208,7 +232,7 @@ public class Controle {
 					if(Math.abs(personagensInimigos[i].getX() - x) <= distanciaPercorrida)
 					{
 						distanciaPercorrida -= Math.abs(personagensInimigos[i].getX() - x);
-						personagensInimigos[i].setX(x+1);
+						personagensInimigos[i].setX(x);
 						if(distanciaPercorrida > 0)
 						{
 							if(Math.abs(personagensInimigos[i].getY() - y) <= distanciaPercorrida)
@@ -224,7 +248,7 @@ public class Controle {
 					}
 					else
 					{
-						personagensInimigos[i].setX(personagensInimigos[i].getX() - distanciaPercorrida+1);
+						personagensInimigos[i].setX(personagensInimigos[i].getX() - distanciaPercorrida);
 						distanciaPercorrida = 0;
 					}
 					
@@ -256,7 +280,7 @@ public class Controle {
 					if(Math.abs(personagensInimigos[i].getX() - x) <= distanciaPercorrida)
 					{
 						distanciaPercorrida -= Math.abs(personagensInimigos[i].getX() - x);
-						personagensInimigos[i].setX(x+1);
+						personagensInimigos[i].setX(x);
 						if(distanciaPercorrida > 0)
 						{
 							if(Math.abs(personagensInimigos[i].getY() - y) <= distanciaPercorrida)
@@ -272,7 +296,7 @@ public class Controle {
 					}
 					else
 					{
-						personagensInimigos[i].setX(personagensInimigos[i].getX() - distanciaPercorrida+1);
+						personagensInimigos[i].setX(personagensInimigos[i].getX() - distanciaPercorrida);
 						distanciaPercorrida = 0;
 					}
 					
@@ -287,15 +311,22 @@ public class Controle {
 		}
 	}
 	
+	/**
+	 * Executa um turno inteiro dos Aliados e dos Inimigos
+	 * @param nAliados
+	 * @param nInimigos
+	 * @throws InterruptedException
+	 */
 	public void turno(int nAliados, int nInimigos) throws InterruptedException
 	{
 		boolean nmoveu;
-		boolean nAtkAliados;;
+		boolean nAtkAliados;
+		boolean inimigosVivos;
 		Posicao pos;
 		Personagem p;
 		for(int i=0; i<nAliados; i++)
 			{
-				if(personagensAliados[i].getVida()> 0)
+				if(aindaVivo(personagensAliados[i]))
 				{
 					rpg.info(String.format("Personagem %s, selecione sua nova posição!", personagensAliados[i].getNome()));
 					pos = rpg.selecionaPosicao();
@@ -368,10 +399,20 @@ public class Controle {
 					}
 					rpg.atualizaTabuleiro();
 				}
+				inimigosVivos = false;
+				for(int j=0; j<nInimigos; j++)
+					if(personagensInimigos[j].getVida() > 0)
+						inimigosVivos = true;
+				if(!inimigosVivos)
+					return;
 		}
 		inteligenciaArtificial(nAliados, nInimigos);
 	}
 	
+	/**
+	 * Como a posição inicial dos Aliados é sempre a mesma, um metodo é mais
+	 * eficiente do que repetir 5 vezes a mesma coisa.
+	 */
 	public void restauraPosicaoAliados()
 	{
 		personagensAliados[0].setX(2);
@@ -389,7 +430,11 @@ public class Controle {
 		personagensAliados[4].setX(4);
 		personagensAliados[4].setY(0);
 	}
-	
+	/**
+	 * Após uma fase restaurar a vida de todo mundo.
+	 * @param aliados
+	 * @param inimigos
+	 */
 	public void restauraVida(int aliados, int inimigos)
 	{
 		for(int i=0; i<aliados; i++)
@@ -402,7 +447,10 @@ public class Controle {
 			personagensInimigos[i].setVida(5);
 		}
 	}
-	
+	/**
+	 * Executa na verdade uma fase inteira.
+	 * @throws InterruptedException
+	 */
 	public void executaTurno() throws InterruptedException {
 		
 		
@@ -433,6 +481,9 @@ public class Controle {
 		removePersonagensFase(5, 3);
 		rpg.atualizaTabuleiro();
 
+		rpg.info("***********************************************");
+		rpg.info("	FASE 1 COMPLETA");
+		rpg.info("***********************************************");
 		// FASE 2
 		this.faseAtual=2;
 				
@@ -461,7 +512,9 @@ public class Controle {
 		removePersonagensFase(5, 3);
 		rpg.atualizaTabuleiro();
 		
-		
+		rpg.info("***********************************************");
+		rpg.info("	FASE 2 COMPLETA");
+		rpg.info("***********************************************");
 		
 
 		// FASE 3
@@ -496,7 +549,9 @@ public class Controle {
 		removePersonagensFase(5, 4);
 		rpg.atualizaTabuleiro();
 		
-
+		rpg.info("***********************************************");
+		rpg.info("	FASE 3 COMPLETA");
+		rpg.info("***********************************************");
 		
 		// FASE 4
 		this.faseAtual=4;
@@ -534,6 +589,9 @@ public class Controle {
 		removePersonagensFase(5, 5);
 		rpg.atualizaTabuleiro();
 		
+		rpg.info("***********************************************");
+		rpg.info("	FASE 4 COMPLETA");
+		rpg.info("***********************************************");
 		
 		// FASE 5
 		this.faseAtual=5;
