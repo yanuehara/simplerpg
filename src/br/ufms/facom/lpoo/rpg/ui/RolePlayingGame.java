@@ -264,6 +264,29 @@ public class RolePlayingGame extends Application {
 	private void desenhaCanvas() {
 		// Desenha tabuleiro.
 		GraphicsContext gc = canvas.getGraphicsContext2D();
+		
+		Image bg = null;
+		switch(this.controle.faseAtual){
+			case 1:
+				bg = new Image("/icons/Fase1.png");
+				break;
+			case 2:
+				bg = new Image("/icons/Fase2.png");
+				break;
+			case 3:
+				bg = new Image("/icons/Fase3.png");
+				break;
+			case 4:
+				bg = new Image("/icons/Fase4.png");
+				break;
+			case 5:
+				bg = new Image("/icons/Fase5.png");
+				break;
+			default:
+					break;
+		}
+		gc.drawImage(bg, 0, 0);
+		
 		gc.setStroke(Color.GREY);
 		for (int x = 1; x <= MAX_X; ++x)
 			gc.strokeLine(x * CELL_W, 0, x * CELL_W, H);

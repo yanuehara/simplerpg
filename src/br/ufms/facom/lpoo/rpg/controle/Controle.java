@@ -52,6 +52,8 @@ public class Controle {
 
 	private Personagem[] personagensAliados = new Personagem[6];
 	private Personagem[] personagensInimigos = new Personagem[5];
+	
+	public int faseAtual;
 	/**
 	 * Cria um objeto de controle que usa o objeto <code>rpg</code> como
 	 * interface com o usuário.
@@ -61,6 +63,7 @@ public class Controle {
 	 */
 	public Controle(RolePlayingGame rpg) {
 		this.rpg = rpg;
+		this.faseAtual = 1;
 
 	}
 
@@ -431,6 +434,7 @@ public class Controle {
 		rpg.atualizaTabuleiro();
 
 		// FASE 2
+		this.faseAtual=2;
 				
 		personagensInimigos[0] = soldI1;
 		personagensInimigos[1] = soldI2;
@@ -461,6 +465,7 @@ public class Controle {
 		
 
 		// FASE 3
+		this.faseAtual=3;
 				
 		personagensInimigos[0] = soldI1;
 		personagensInimigos[1] = soldI2;
@@ -494,6 +499,7 @@ public class Controle {
 
 		
 		// FASE 4
+		this.faseAtual=4;
 		
 		personagensInimigos[0] = soldI1;
 		personagensInimigos[1] = soldI2;
@@ -530,6 +536,8 @@ public class Controle {
 		
 		
 		// FASE 5
+		this.faseAtual=5;
+		
 		personagensAliados[5] = comandanteA1;
 		
 		personagensInimigos[0] = soldI1;
