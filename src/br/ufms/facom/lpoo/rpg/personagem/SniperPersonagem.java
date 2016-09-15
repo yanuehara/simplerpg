@@ -132,7 +132,7 @@ public abstract class SniperPersonagem implements Personagem {
 		}
 		else if(vida > 5)
 		{
-			vida = 5;
+			this.vida = 5;
 		}
 		else
 			this.vida = vida;
