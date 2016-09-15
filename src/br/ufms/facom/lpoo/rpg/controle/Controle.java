@@ -635,6 +635,9 @@ public class Controle {
 		removePersonagensFase(6, 5);
 		rpg.atualizaTabuleiro();
 
+		rpg.info("***********************************************");
+		rpg.info("	GAME OVER, YOU WIN");
+		rpg.info("***********************************************");
 		while(true);
 
 	}
