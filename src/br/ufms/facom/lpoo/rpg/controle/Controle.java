@@ -39,7 +39,7 @@ public class Controle {
 	private SoldadoAliado soldA3 = new SoldadoAliado("SoldA3", rifle, 4, 1);
 	private MedicoAliado medicoA1 = new MedicoAliado("MedicoA1", desfibrilador1, 2, 0);
 	private SniperAliado sniperA1 = new SniperAliado("SniperA1", sniper, 4, 0);
-	private Comandante comandanteA1 = new Comandante("Comandante Eraldo", minigun, 3, 0);
+	private Comandante comandanteA1 = new Comandante("Cmdt Eraldo", minigun, 3, 0);
 	
 	
 	private SoldadoInimigo soldI1 = new SoldadoInimigo("SoldI1", pistola, 3, 4);
